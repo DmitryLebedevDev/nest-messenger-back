@@ -9,11 +9,14 @@ export class User {
   firstName: String
 
   @Column({nullable: false})
-  surname: String
+  lastName: String
 
-  @Column({nullable: false})
+  @Column({nullable: false, unique: true})
   email: String
 
   @Column({nullable: false})
   password: String
+
+  @Column({default: null})
+  avatarId: String
 }
