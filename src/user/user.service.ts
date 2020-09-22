@@ -9,11 +9,15 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectRepository(User) private usersRepository: Repository<User>) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(createUserDto.password, salt);
-
-    const createUser = this.usersRepository.manager.save({...createUserDto, password: hash}).then(user => console.log(user.id));
+    const user = this.usersRepository
+                     .create({...createUserDto, password: hash});
+    return this.usersRepository.save(user);
+  }
+  async find(id: Number) {
+    return this.usersRepository.findOne({id});
   }
 }

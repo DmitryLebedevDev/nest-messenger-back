@@ -1,5 +1,4 @@
 export class CreateUserDto {
-  id: Number
   firstName: String
   lastName: String
   email: String
