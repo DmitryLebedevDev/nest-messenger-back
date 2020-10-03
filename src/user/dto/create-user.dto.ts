@@ -1,7 +1,7 @@
 export class CreateUserDto {
-  firstName: String
-  lastName: String
-  email: String
-  password: String
-  avatarId: String
+  readonly firstName: String
+  readonly lastName: String
+  readonly email: String
+  readonly password: String
+  readonly avatarId?: String
 }
