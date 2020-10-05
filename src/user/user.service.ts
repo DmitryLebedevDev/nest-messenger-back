@@ -18,9 +18,12 @@ export class UserService {
     const hash = await bcrypt.hash(createUserDto.password, salt);
     const user = this.usersRepository
                      .create({...createUserDto, password: hash});
-    return user;
+    return this.usersRepository.save(user);
   }
   async find(id: Number) {
     return this.usersRepository.findOne({id});
+  }
+  async getAll() {
+    return this.usersRepository.find();
   }
 }
