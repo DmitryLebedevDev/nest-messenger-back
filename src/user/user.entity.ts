@@ -1,9 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, Table } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Table, ManyToMany, ManyToOne } from "typeorm";
+import { RoomToUser } from "src/room_user/roomToUser.entity";
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: Number
+  id: number
 
   @Column({nullable: false})
   firstName: string
@@ -19,4 +20,7 @@ export class User {
 
   @Column({default: null})
   avatarId: string
+
+  @ManyToOne(type => RoomToUser, roomToUser => roomToUser.user)
+  roomToUsers: RoomToUser[]
 }

@@ -5,6 +5,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { User } from './user/user.entity';
+import { RoomModule } from './room/room.module';
+import { Room } from './room/room.entity';
+import { RoomToUser } from './room_user/roomToUser.entity';
+import { Role } from './room_role/role.entity';
 
 const nodeEnvMode = process.env.NODE_ENV || 'development';
 
@@ -21,11 +25,12 @@ const nodeEnvMode = process.env.NODE_ENV || 'development';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [User],
+      entities: [User, RoomToUser, Room, Role],
       synchronize: true,
     }),
     UserModule,
     AuthModule,
+    RoomModule,
   ],
 })
 
