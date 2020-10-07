@@ -1,28 +1,27 @@
-import { Controller, Get, Post, Body, HttpException, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ERROR_MESSAGES } from '../common/ERROR_MESSAGES';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private userServise: UserService){}
 
-  @Post('create')
-  async regUser(@Body() createUserDto: CreateUserDto) {
-    try {
-      const user = await this.userServise.create(createUserDto);
-      return this.userServise.sanitiseData(user);
-    } catch {
-      throw new HttpException({
-        status:   HttpStatus.BAD_REQUEST,
-        message:  ERROR_MESSAGES.EMAIL_ALREADY_EXIST,
-        error:   'Bad Request'
-      }, HttpStatus.BAD_REQUEST);
-    }
-  };
+  @Get('getAll')
+  @UseGuards(JwtAuthGuard)
+  async getAllUsers() {
+    return this.userServise
+               .getAll()
+               .then(users =>
+                  users.map(this.userServise.sanitiseData.bind(this.userServise))
+                );
+  }
+
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async getUser(@Param () param) {
-    return this.userServise.find(param.id)
+    return this.userServise.findById(param.id)
                .then(user => this.userServise.sanitiseData(user))
                .catch(_ => {
                   throw new HttpException({
@@ -31,13 +30,5 @@ export class UserController {
                     error:   'Not found'
                   }, HttpStatus.NOT_FOUND)
                });
-  }
-  @Get('getAll')
-  async getAllUsers() {
-    return this.userServise
-               .getAll()
-               .then(users =>
-                  users.map(this.userServise.sanitiseData.bind(this.userServise))
-                );
   }
 }

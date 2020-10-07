@@ -2,18 +2,18 @@ import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  readonly firstName: String
+  readonly firstName: string
 
   @IsNotEmpty()
-  readonly lastName: String
+  readonly lastName: string
 
   @IsNotEmpty()
   @IsEmail()
-  readonly email: String
+  readonly email: string
 
   @IsNotEmpty()
   @Length(8,20)
-  readonly password: String
+  readonly password: string
 
-  readonly avatarId?: String
+  readonly avatarId?: string
 }

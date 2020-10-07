@@ -10,11 +10,9 @@ const nodeEnvMode = process.env.NODE_ENV || 'development';
 
 @Module({
   imports: [
-    UserModule,
-    AuthModule,
     ConfigModule.forRoot({
       envFilePath: `.env.${nodeEnvMode}`,
-      isGlobal: true
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: "postgres",
@@ -25,9 +23,12 @@ const nodeEnvMode = process.env.NODE_ENV || 'development';
       database: process.env.POSTGRES_DATABASE,
       entities: [User],
       synchronize: true,
-    })
+    }),
+    UserModule,
+    AuthModule,
   ],
 })
+
 export class AppModule {
   constructor(private connection: Connection) {}
 }
