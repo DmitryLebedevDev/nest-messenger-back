@@ -8,7 +8,7 @@ import { User } from './user/user.entity';
 import { RoomModule } from './room/room.module';
 import { Room } from './room/room.entity';
 import { RoomToUser } from './room_user/roomToUser.entity';
-import { Role } from './room_role/role.entity';
+import { Role } from './role/role.entity';
 
 const nodeEnvMode = process.env.NODE_ENV || 'development';
 

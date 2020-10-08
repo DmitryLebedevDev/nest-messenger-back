@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 import { User } from "src/user/user.entity";
 import { Room } from "src/room/room.entity";
-import { Role } from "src/room_role/role.entity";
+import { Role } from "src/role/role.entity";
 
 @Entity()
 export class RoomToUser {

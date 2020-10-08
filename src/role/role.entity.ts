@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinColumn, ManyToOne } from "typeorm";
-import { User } from "src/user/user.entity";
+import { Entity, Column, PrimaryGeneratedColumn,ManyToOne } from "typeorm";
 import { Room } from "src/room/room.entity";
 
 @Entity()
@@ -10,16 +9,16 @@ export class Role {
   @Column()
   name: string
 
-  @Column()
+  @Column({default: false})
   isDeleteUsersMesseges: boolean
 
-  @Column()
+  @Column({default: true})
   isDeleteYourMesseges: boolean
 
-  @Column()
+  @Column({default: false})
   isBannedUsers: boolean
 
-  @Column()
+  @Column({default: false})
   isMuteUsers: boolean
 
   @ManyToOne(type => Room, room => room.roomRoles)
