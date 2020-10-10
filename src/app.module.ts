@@ -9,6 +9,7 @@ import { RoomModule } from './room/room.module';
 import { Room } from './room/room.entity';
 import { RoomToUser } from './room_user/roomToUser.entity';
 import { Role } from './role/role.entity';
+import { Message } from './message/message.entity';
 
 const nodeEnvMode = process.env.NODE_ENV || 'development';
 
@@ -25,7 +26,7 @@ const nodeEnvMode = process.env.NODE_ENV || 'development';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [User, RoomToUser, Room, Role],
+      entities: [User, RoomToUser, Room, Role, Message],
       synchronize: true,
     }),
     UserModule,

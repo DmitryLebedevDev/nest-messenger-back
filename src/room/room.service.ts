@@ -17,5 +17,13 @@ export class RoomService {
                       createrId: jwtUser.id,
                       roomRoles: createDefaultRoles()
                     });
+    return this.roomRepository.save(room);
+  }
+  async checkUniqueName(name: string) {
+    const roomLen = await this.roomRepository.count({name});
+    if (roomLen) {
+      return false;
+    }
+    return true;
   }
 }
