@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { RoomToUser } from "src/room_user/roomToUser.entity";
 import { Role } from "src/role/role.entity";
+import { Message } from "src/message/message.entity";
 
 @Entity()
 export class Room {
@@ -15,6 +16,9 @@ export class Room {
 
   @Column({default: null})
   avatarId?: string
+
+  @OneToMany(type => Message, message => message.room)
+  messages: Message[]
 
   @OneToMany(type => Role, role => role.room)
   roomRoles: Role[]
