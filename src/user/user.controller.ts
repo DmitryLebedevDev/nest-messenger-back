@@ -2,26 +2,27 @@ import { Controller, Get, Post, Body, HttpException, HttpStatus, Param, UseGuard
 import { UserService } from './user.service';
 import { ERROR_MESSAGES } from '../common/ERROR_MESSAGES';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { SocketService } from 'src/socket/socket.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private userServise: UserService){}
+  constructor(private userService: UserService) {}
 
   @Get('getAll')
   @UseGuards(JwtAuthGuard)
   async getAllUsers() {
-    return this.userServise
+    return this.userService
                .getAll()
                .then(users =>
-                  users.map(this.userServise.sanitiseData.bind(this.userServise))
+                  users.map(this.userService.sanitiseData.bind(this.userService))
                 );
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async getUser(@Param () param) {
-    return this.userServise.findById(param.id)
-               .then(user => this.userServise.sanitiseData(user))
+    return this.userService.findById(param.id)
+               .then(user => this.userService.sanitiseData(user))
                .catch(_ => {
                   throw new HttpException({
                     status:   HttpStatus.NOT_FOUND,

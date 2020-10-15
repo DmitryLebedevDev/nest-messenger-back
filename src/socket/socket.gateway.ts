@@ -1,19 +1,17 @@
 import {
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
   OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthWebsocketStrategy } from 'src/auth/auth-websocket.guard';
 import { SocketWithUser } from './socket.interface';
 import { JwtService } from '@nestjs/jwt';
 import { IjwtUser } from 'src/user/interface/user.interface';
+import { UserService } from 'src/user/user.service';
+import { SocketService } from './socket.service';
 
 
 @WebSocketGateway()
@@ -21,12 +19,9 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   @WebSocketServer()
   server: Server;
 
-  constructor(private jwtService: JwtService) {}
-
-  @SubscribeMessage('auth')
-  auth(client: Socket, data: string) {
-
-  }
+  constructor(private jwtService: JwtService,
+              private socketService: SocketService
+             ) {}
 
   @SubscribeMessage('message')
   message(client: SocketWithUser, data) {
@@ -34,14 +29,16 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   }
 
   afterInit() {
-    console.log('server sockets start');
   }
 
   async handleConnection(client: SocketWithUser) {
     try {
       client.user = await this.jwtService.decode(client.handshake.query.token) as IjwtUser;
+      if(!client.user) {
+        throw 'no user';
+      }
     } catch (e) {
-      client.disconnect(true)
+      client.disconnect(true);
     }
   }
 

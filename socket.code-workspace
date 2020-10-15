@@ -1,11 +1,11 @@
 {
 	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../react-messenger-front"
-		}
-	],
+    {
+      "path": "."
+    },
+    {
+      "path": "../react-messenger-front"
+    }
+  ],
   "settings": {}
 }

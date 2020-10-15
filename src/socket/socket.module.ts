@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { SocketGateway } from './socket.gateway';
 import { JwtAuthWebsocketStrategy } from 'src/auth/auth-websocket.guard';
-import { JwtService, JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { SocketService } from './socket.service';
+import { RoomModule } from 'src/room/room.module';
 
 @Module({
   imports: [
+    forwardRef(() => RoomModule),
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.jwtKey,
@@ -13,6 +15,6 @@ import { PassportModule } from '@nestjs/passport';
       })
     })
   ],
-  providers: [SocketGateway, JwtAuthWebsocketStrategy]
+  providers: [SocketGateway, JwtAuthWebsocketStrategy, SocketService]
 })
 export class SocketModule {}

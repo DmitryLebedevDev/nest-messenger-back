@@ -19,6 +19,13 @@ export class RoomService {
                     });
     return this.roomRepository.save(room);
   }
+  async getUserRooms(idUser:number) {
+    return await this.roomRepository
+                     .createQueryBuilder('room')
+                     .select('room')
+                     .innerJoin('room.roomToUsers', 'roomToUsers')
+                     .innerJoin('roomToUsers.user', 'user', 'user.id = :id', {id: idUser});
+  }
   async checkUniqueName(name: string) {
     const roomLen = await this.roomRepository.count({name});
     if (roomLen) {
