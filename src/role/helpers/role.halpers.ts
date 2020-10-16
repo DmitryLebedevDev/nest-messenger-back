@@ -1,22 +1,22 @@
 import { Role } from "src/role/role.entity";
-import { RolesId } from "src/role/enums/role.enum";
 
-export function createDefaultRoles():Array<Role> {
+export function createDefaultOwnerRole() {
   let owner = new Role();
       owner = {...owner,
-               ...{
-                  id: RolesId.owner,
+              ...{
                   isBannedUsers: true,
                   name: 'Owner',
                   isMuteUsers: true,
                   isDeleteUsersMesseges: true,
                   isDeleteYourMesseges: true
-               }
+              }
       };
+  return owner;
+}
+export function createDefaultUserRole() {
   let user = new Role();
       user = {...user,
               ...{
-                  id: RolesId.user,
                   isBannedUsers: false,
                   name: 'User',
                   isMuteUsers: false,
@@ -24,6 +24,5 @@ export function createDefaultRoles():Array<Role> {
                   isDeleteYourMesseges: true
               }
       }
-
-  return [owner,user];
+  return user;
 }

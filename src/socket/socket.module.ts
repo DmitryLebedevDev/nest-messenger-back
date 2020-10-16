@@ -15,6 +15,7 @@ import { RoomModule } from 'src/room/room.module';
       })
     })
   ],
-  providers: [SocketGateway, JwtAuthWebsocketStrategy, SocketService]
+  providers: [SocketGateway, JwtAuthWebsocketStrategy, SocketService],
+  exports: [SocketService]
 })
 export class SocketModule {}

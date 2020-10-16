@@ -18,13 +18,6 @@ export class UserService {
     const salt = await bcrypt.genSalt(saltRounds);
     return await bcrypt.hash(password, salt);
   }
-  async getRooms(idUser: number, idRoom: number) {
-    return await this.usersRepository
-                     .createQueryBuilder('user')
-                     .select('room')
-                     .innerJoin('user.roomToUsers', 'roomToUsers', 'user.id = :id', {id: idUser})
-                     .innerJoin('roomToUsers.room', 'room', 'room.id = :id', {id: idRoom});
-  }
   async create(createUserDto: CreateUserDto): Promise<User> {
     const hash = await this.encryptPassword(createUserDto.password);
     const user = this.usersRepository
