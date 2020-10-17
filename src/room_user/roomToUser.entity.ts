@@ -8,7 +8,7 @@ export class RoomToUser {
   @PrimaryGeneratedColumn()
   id: number
 
-  @OneToOne(type => Role)
+  @ManyToOne(type => Role)
   @JoinColumn()
   role: Role
 

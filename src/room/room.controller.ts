@@ -6,11 +6,11 @@ import { RoomService } from './room.service';
 import { CheckUniqueNameDto } from './dto/check-unique-name.dto';
 import { SocketService } from 'src/socket/socket.service';
 import { UserService } from 'src/user/user.service';
-import { RoomToUserSevice } from 'src/room_user/roomToUser.service';
 import { RoleService } from 'src/role/role.service';
 import { RoleIndex } from '../role/enums/role.enum';
 import { JoinRoomDto } from './dto/join-room.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
+import { checkExistRoom } from './createrException/createrException';
 
 
 @UseGuards(JwtAuthGuard)
@@ -24,44 +24,42 @@ export class RoomController {
 
   @Get('checkName')
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto) {
-    return await this.roomService.checkUniqueName(checkUniqueNameDto.name);
+    return await !this.roomService.checkUniqueName(checkUniqueNameDto.name);
   }
+
   @Post('join')
-  async join(@Body() joinRoomDto: JoinRoomDto, @Query() req: IreqUser) {
-    try {
-      const room = await this.roomService.findById(joinRoomDto.id);
-      const user = await this.userService.findById(req.user.id);
-      const role = await this.roleService.getUserRole(joinRoomDto.id);
-                   await this.roomService.joinUser(room,user,role);
+  async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {
+    if(await this.roomService.checkUserExistInRoom(joinRoomDto.id, req.user.id)) {
+      throw new HttpException({
+        status:   HttpStatus.BAD_REQUEST,
+        message:  ERROR_MESSAGES.USER_ALRADY_IN_ROOM,
+        error:   'User alrady in room'
+      }, HttpStatus.BAD_REQUEST)
     }
-    catch {
-        throw new HttpException({
-          status:   HttpStatus.NOT_FOUND,
-          message:  ERROR_MESSAGES.ROOM_NOT_FOUND,
-          error:   'Not found'
-        }, HttpStatus.BAD_REQUEST)
-    }
+    console.log(req.user, await this.roomService.checkUserExistInRoom(joinRoomDto.id, req.user.id));
+    const user = await this.userService.findById(req.user.id);
+
+    const room = await this.roomService.findById(joinRoomDto.id);
+    checkExistRoom(room);
+
+    const role = await this.roleService.getUserRole(joinRoomDto.id);
+                 await this.roomService.joinUser(room,user,role);
+    return "ok";
   }
   @Post('create')
   async createRoom(@Body() createRoomDto: CreateRoomDto, @Request() req: IreqUser) {
-    try {
-      const user               = await this.userService.findById(req.user.id);
-      const room               = await this.roomService.create(createRoomDto, req.user);
-      const defaultRoleForRoom = await this.roleService.createDefaulRoles(room);
-                                 await this.roomService.joinUser(
-                                     room,
-                                     user,
-                                     defaultRoleForRoom[RoleIndex.owner]
-                                 );
-      room.roomRoles = this.roleService.deleteRoomField(defaultRoleForRoom); // fix circular dependency
-      return room;
-    }
-    catch {
-      throw new HttpException({
-        status:   HttpStatus.BAD_REQUEST,
-        message:  ERROR_MESSAGES.ROOM_NAME_IS_NOT_UNIQUE,
-        error:   'name is not unique'
-      }, HttpStatus.BAD_REQUEST)
-    }
+    const user               = await this.userService.findById(req.user.id);
+
+    const room               = await this.roomService.create(createRoomDto, req.user);
+    checkExistRoom(room);
+
+    const defaultRoleForRoom = await this.roleService.createDefaulRoles(room);
+                               await this.roomService.joinUser(
+                                  room,
+                                  user,
+                                  defaultRoleForRoom[RoleIndex.owner]
+                               );
+    room.roomRoles = this.roleService.deleteRoomField(defaultRoleForRoom); // fix circular dependency
+    return room;
   }
 }

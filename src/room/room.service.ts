@@ -36,10 +36,10 @@ export class RoomService {
     return await this.roomRepository.findOne({id});
   }
   async checkUniqueName(name: string) {
-    const roomLen = await this.roomRepository.count({name});
-    if (roomLen) {
-      return false;
-    }
-    return true;
+    const isExist = await this.roomRepository.count({name});
+    return Boolean(isExist);
+  }
+  async checkUserExistInRoom(idRoom: number, idUser: number) {
+    return await this.roomToUserSevice.checkUniqueRoomToUserBranch(idRoom,idUser);
   }
 }

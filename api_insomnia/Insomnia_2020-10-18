@@ -1,0 +1,672 @@
+{
+	"log": {
+		"version": "1.2",
+		"creator": {
+			"name": "Insomnia REST Client",
+			"version": "insomnia.desktop.app:v2020.4.1"
+		},
+		"entries": [
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 31.665,
+				"request": {
+					"method": "POST",
+					"url": "http://localhost:3000/room/join",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"name": "Authorization",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMjQ1NTUzMS5ydSIsImlhdCI6MTYwMjk1MjI5NCwiZXhwIjoxNjAzMDM4Njk0fQ.4rKXaZ-xW25U4SdK7u7VXU4G7VgqQgcsLclrZRC5j30"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "application/json",
+						"text": "{\n\t\"id\": 13\n}",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 201,
+					"statusText": "Created",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "2"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"2-eoX0dku9ba8cNUXvu/DyeabcC+s\""
+						},
+						{
+							"name": "Date",
+							"value": "Sat, 17 Oct 2020 16:31:45 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 2,
+						"mimeType": "text/html; charset=utf-8",
+						"text": "ok"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 31.665,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "join room"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 4.126,
+				"request": {
+					"method": "GET",
+					"url": "http://localhost:3000/room/checkName",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Content-Type",
+							"value": "application/x-www-form-urlencoded"
+						},
+						{
+							"name": "Authorization",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMi5ydSIsImlhdCI6MTYwMjMxNzA3OCwiZXhwIjoxNjAyNDAzNDc4fQ.CMz--cST5dvM_CiFrTqJo8UqKBRZ2Z_dhRT2mPY-y5E"
+						}
+					],
+					"queryString": [
+						{
+							"name": "name",
+							"value": "test"
+						}
+					],
+					"postData": {
+						"mimeType": "application/x-www-form-urlencoded",
+						"text": "",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 200,
+					"statusText": "OK",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "5"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"5-fLbvuYullyqbUJDcLlF/4U0SywQ\""
+						},
+						{
+							"name": "Date",
+							"value": "Sat, 10 Oct 2020 08:22:44 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 5,
+						"mimeType": "text/html; charset=utf-8",
+						"text": "false"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 4.126,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "Check uniq name"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 88.283,
+				"request": {
+					"method": "POST",
+					"url": "http://localhost:3000/room/create",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"name": "Authorization",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMi5ydSIsImlhdCI6MTYwMjgyNTg2OSwiZXhwIjoxNjAyOTEyMjY5fQ.1jRwFfDHo-lN7rG5QAYoRODdA0CoOWL8w1mIs_nuZuE"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "application/json",
+						"text": "{\n\t\"name\": \"test1233g446ggjh53f3fgf\"\n}",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 201,
+					"statusText": "Created",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "333"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"14d-rqGCfGX6L1jiU9nFt1vx5yQl0HI\""
+						},
+						{
+							"name": "Date",
+							"value": "Fri, 16 Oct 2020 06:36:35 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 333,
+						"mimeType": "application/json; charset=utf-8",
+						"text": "{\"name\":\"test1233g446ggjh53f3fgf\",\"createrId\":13,\"avatarId\":null,\"id\":28,\"roomRoles\":[{\"name\":\"Owner\",\"isDeleteUsersMesseges\":true,\"isDeleteYourMesseges\":true,\"isBannedUsers\":true,\"isMuteUsers\":true,\"id\":19},{\"name\":\"User\",\"isDeleteUsersMesseges\":false,\"isDeleteYourMesseges\":true,\"isBannedUsers\":false,\"isMuteUsers\":false,\"id\":20}]}"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 88.283,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "create room"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 23.991,
+				"request": {
+					"method": "GET",
+					"url": "http://localhost:3000/user/7",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Authorization",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMi5ydSIsImlhdCI6MTYwMjE3NzY1OCwiZXhwIjoxNjAyMjY0MDU4fQ.zASYZSe2nRP3LfRsIoTuPtYhIsa0UMVTTURw2CQExE4"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "",
+						"text": "",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 200,
+					"statusText": "OK",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "100"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"64-6NgdODrSKpAensXbs6OtKcyXmb4\""
+						},
+						{
+							"name": "Date",
+							"value": "Thu, 08 Oct 2020 17:24:43 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 100,
+						"mimeType": "application/json; charset=utf-8",
+						"text": "{\"id\":7,\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin2.ru\",\"avatarId\":null}"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 23.991,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "get for id"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 24.695,
+				"request": {
+					"method": "GET",
+					"url": "http://localhost:3000/auth",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Authorization",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoiYWRtaW5AYWRtaW4xMjQ1NS5ydSIsImlhdCI6MTYwMjM1MjI0NiwiZXhwIjoxNjAyNDM4NjQ2fQ.NSyzbiLgW5niIGxFtboXV-ggLY72Bo3QFy3bTT1qVwA"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "",
+						"text": "",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 200,
+					"statusText": "OK",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "105"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"69-KrrYibrqPumucIvP5SQmFqN0pco\""
+						},
+						{
+							"name": "Date",
+							"value": "Sat, 10 Oct 2020 17:50:54 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 105,
+						"mimeType": "application/json; charset=utf-8",
+						"text": "{\"id\":19,\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin12455.ru\",\"avatarId\":null}"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 24.695,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "auth"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 6.607,
+				"request": {
+					"method": "POST",
+					"url": "http://localhost:3000/auth/login",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "application/json",
+						"text": "{\n\t\"password\": \"12345678\",\n\t\"email\": \"admin@admin12.ru\"\n}",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 201,
+					"statusText": "Created",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "194"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"c2-lXPxoE132jPfmiEaSf4NhvumkfI\""
+						},
+						{
+							"name": "Date",
+							"value": "Sat, 17 Oct 2020 14:33:40 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 194,
+						"mimeType": "application/json; charset=utf-8",
+						"text": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMi5ydSIsImlhdCI6MTYwMjk0NTIyMCwiZXhwIjoxNjAzMDMxNjIwfQ.n1muK1Nj3cKAo06u9r-KUcWmGv5R9lv6_Kha15Tpn70\"}"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 6.607,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "login"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 52.269000000000005,
+				"request": {
+					"method": "GET",
+					"url": "http://localhost:3000/user/getAll",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Authorization",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMi5ydSIsImlhdCI6MTYwMjE3NzY1OCwiZXhwIjoxNjAyMjY0MDU4fQ.zASYZSe2nRP3LfRsIoTuPtYhIsa0UMVTTURw2CQExE4"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "",
+						"text": "",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 200,
+					"statusText": "OK",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "406"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"196-ORtT7z657KaSo5kn8MU5riPqrZA\""
+						},
+						{
+							"name": "Date",
+							"value": "Thu, 08 Oct 2020 17:23:43 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 406,
+						"mimeType": "application/json; charset=utf-8",
+						"text": "[{\"id\":1,\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin.ru\",\"avatarId\":null},{\"id\":7,\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin2.ru\",\"avatarId\":null},{\"id\":9,\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin5.ru\",\"avatarId\":null},{\"id\":13,\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin12.ru\",\"avatarId\":null}]"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 52.269000000000005,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "get All Users"
+			},
+			{
+				"startedDateTime": "2020-10-17T16:36:02.116Z",
+				"time": 136.41400000000002,
+				"request": {
+					"method": "POST",
+					"url": "http://localhost:3000/auth/registration",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"name": "Authorization",
+							"value": "Bearer undefined"
+						}
+					],
+					"queryString": [],
+					"postData": {
+						"mimeType": "application/json",
+						"text": "{\n\t\"firstName\": \"dfghhgfhfg\",\n\t\"lastName\": \"hfgfhdgfhgd\",\n\t\"email\": \"admin@admin12455531.ru\",\n\t\"password\": \"12345678\",\n\t\"repedPassword\": \"12345678\"\n}",
+						"params": []
+					},
+					"headersSize": -1,
+					"bodySize": -1,
+					"settingEncodeUrl": true
+				},
+				"response": {
+					"status": 201,
+					"statusText": "Created",
+					"httpVersion": "HTTP/1.1",
+					"cookies": [],
+					"headers": [
+						{
+							"name": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"name": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"name": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"name": "Content-Length",
+							"value": "309"
+						},
+						{
+							"name": "ETag",
+							"value": "W/\"135-9AV+m/hjVkgTJjUR7Bwp0ncElqU\""
+						},
+						{
+							"name": "Date",
+							"value": "Sat, 17 Oct 2020 16:31:34 GMT"
+						},
+						{
+							"name": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"content": {
+						"size": 309,
+						"mimeType": "application/json; charset=utf-8",
+						"text": "{\"firstName\":\"dfghhgfhfg\",\"lastName\":\"hfgfhdgfhgd\",\"email\":\"admin@admin12455531.ru\",\"avatarId\":null,\"id\":23,\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImVtYWlsIjoiYWRtaW5AYWRtaW4xMjQ1NTUzMS5ydSIsImlhdCI6MTYwMjk1MjI5NCwiZXhwIjoxNjAzMDM4Njk0fQ.4rKXaZ-xW25U4SdK7u7VXU4G7VgqQgcsLclrZRC5j30\"}"
+					},
+					"redirectURL": "",
+					"headersSize": -1,
+					"bodySize": -1
+				},
+				"cache": {},
+				"timings": {
+					"blocked": -1,
+					"dns": -1,
+					"connect": -1,
+					"send": 0,
+					"wait": 136.41400000000002,
+					"receive": 0,
+					"ssl": -1
+				},
+				"comment": "registerUser"
+			}
+		]
+	}
+}

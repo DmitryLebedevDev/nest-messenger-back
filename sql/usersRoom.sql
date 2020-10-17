@@ -1,7 +1,7 @@
-select "user".*, role.name from public.room
-		 inner join public.room_to_user r_u
-		 	on room."id" = r_u."roomId" and room."name" = 'test1233g446ggjh53f3fgf'
-		 inner join public.role role
-		 	on r_u."roleId" = role."id"
-		 inner join public.user "user"
-		 	on "user"."id" = r_u."userId"
+select room.id as roomId, "user".*, role.name from public.room room
+	inner join public.room_to_user r_u
+		on r_u."roomId" = room."id"
+	inner join public.role role
+		on r_u."roleId" = role."id"
+	inner join public.user "user"
+		on r_u."userId" = "user"."id"

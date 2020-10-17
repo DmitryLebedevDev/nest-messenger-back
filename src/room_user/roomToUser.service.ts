@@ -11,9 +11,18 @@ export class RoomToUserSevice {
   constructor(
               @InjectRepository(RoomToUser) private roomToUserRepository: Repository<RoomToUser>
              ) {}
+  async checkUniqueRoomToUserBranch(idRoom: number, idUser: number) {
+    const isExist = await this.roomToUserRepository
+                              .createQueryBuilder('room_to_user')
+                              .innerJoin('room_to_user.room', 'room', 'room.id = :idRoom', {idRoom})
+                              .innerJoin('room_to_user.user','user', 'user.id = :idUser', {idUser})
+                              .getCount();
+    return Boolean(isExist);
+  }
   joinUser(room: Room, user: User, role: Role) {
     const roomToUser = this.roomToUserRepository
                            .create({room,user,role})
+    console.log(roomToUser);
     return this.roomToUserRepository.save(roomToUser);
   }
 }
