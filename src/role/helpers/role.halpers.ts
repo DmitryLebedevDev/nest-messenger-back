@@ -1,11 +1,12 @@
 import { Role } from "src/role/role.entity";
+import { RoleName } from "../enums/role.enum";
 
 export function createDefaultOwnerRole() {
   let owner = new Role();
       owner = {...owner,
               ...{
                   isBannedUsers: true,
-                  name: 'Owner',
+                  name: RoleName.owner,
                   isMuteUsers: true,
                   isDeleteUsersMesseges: true,
                   isDeleteYourMesseges: true
@@ -18,7 +19,7 @@ export function createDefaultUserRole() {
       user = {...user,
               ...{
                   isBannedUsers: false,
-                  name: 'User',
+                  name: RoleName.user,
                   isMuteUsers: false,
                   isDeleteUsersMesseges: false,
                   isDeleteYourMesseges: true

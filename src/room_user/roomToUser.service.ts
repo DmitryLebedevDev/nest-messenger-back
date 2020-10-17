@@ -11,7 +11,7 @@ export class RoomToUserSevice {
   constructor(
               @InjectRepository(RoomToUser) private roomToUserRepository: Repository<RoomToUser>
              ) {}
-  create(room: Room, user: User, role: Role) {
+  joinUser(room: Room, user: User, role: Role) {
     const roomToUser = this.roomToUserRepository
                            .create({room,user,role})
     return this.roomToUserRepository.save(roomToUser);
