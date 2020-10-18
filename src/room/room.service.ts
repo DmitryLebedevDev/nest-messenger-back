@@ -25,12 +25,13 @@ export class RoomService {
   async joinUser(room: Room, user: User, role: Role) {
     return await this.roomToUserSevice.joinUser(room,user,role);
   }
-  async getUserRooms(idUser:number) {
+  async getUserRooms(idUser:number, isOnliId?: boolean) {
     return await this.roomRepository
                      .createQueryBuilder('room')
-                     .select('room')
+                     .select(isOnliId ? 'room.id' : 'room')
                      .innerJoin('room.roomToUsers', 'roomToUsers')
-                     .innerJoin('roomToUsers.user', 'user', 'user.id = :id', {id: idUser});
+                     .innerJoin('roomToUsers.user', 'user', 'user.id = :id', {id: idUser})
+                     .getMany();
   }
   async findById(id) {
     return await this.roomRepository.findOne({id});

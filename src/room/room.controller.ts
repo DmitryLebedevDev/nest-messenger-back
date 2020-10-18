@@ -11,6 +11,7 @@ import { RoleIndex } from '../role/enums/role.enum';
 import { JoinRoomDto } from './dto/join-room.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { checkExistRoom } from './createrException/createrException';
+import { GetUserRoomsDto } from './dto/getUserRooms.dto';
 
 
 @UseGuards(JwtAuthGuard)
@@ -26,7 +27,10 @@ export class RoomController {
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto) {
     return await !this.roomService.checkUniqueName(checkUniqueNameDto.name);
   }
-
+  @Get('getUserRoom')
+  async getUserRoom(@Body() getUserRoomsDto: GetUserRoomsDto) {
+    return await this.roomService.getUserRooms(getUserRoomsDto.id);
+  }
   @Post('join')
   async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {
     if(await this.roomService.checkUserExistInRoom(joinRoomDto.id, req.user.id)) {

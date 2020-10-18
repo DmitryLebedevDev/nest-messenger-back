@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany } from "typeorm";
 import { RoomToUser } from "src/room_user/roomToUser.entity";
 import { Role } from "src/role/role.entity";
 import { Message } from "src/message/message.entity";
@@ -23,6 +23,6 @@ export class Room {
   @OneToMany(type => Role, role => role.room)
   roomRoles: Role[]
 
-  @ManyToOne(type => RoomToUser, roomToUser => roomToUser.room)
+  @OneToMany(type => RoomToUser, roomToUser => roomToUser.room)
   roomToUsers: RoomToUser[]
 }

@@ -9,7 +9,8 @@ export function createDefaultOwnerRole() {
                   name: RoleName.owner,
                   isMuteUsers: true,
                   isDeleteUsersMesseges: true,
-                  isDeleteYourMesseges: true
+                  isDeleteYourMesseges: true,
+                  isSendMessage: true
               }
       };
   return owner;
@@ -22,7 +23,8 @@ export function createDefaultUserRole() {
                   name: RoleName.user,
                   isMuteUsers: false,
                   isDeleteUsersMesseges: false,
-                  isDeleteYourMesseges: true
+                  isDeleteYourMesseges: true,
+                  isSendMessage: true
               }
       }
   return user;

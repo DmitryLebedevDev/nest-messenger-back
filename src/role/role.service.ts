@@ -23,10 +23,26 @@ export class RoleService {
                               .select(['role'])
                               .innerJoin(
                                          'role.room', 'room',
-                                         'room.id = :id and role.name = :nameRole',
-                                         {id: idRoom, nameRole: RoleName.user}
+                                         'room.id = :idRoom and role.name = :nameRole',
+                                         {idRoom: idRoom, nameRole: RoleName.user}
                                         )
                               .getOne();
+  }
+  async userCanSendMessage(idRoom: number, idUser: number) {
+    const role = await this.roleRepository.createQueryBuilder('role')
+                                    .select(['role'])
+                                    .innerJoin(
+                                      'role.room', 'room',
+                                      'room.id = :idRoom',
+                                      {idRoom: idRoom}
+                                    )
+                                    .innerJoin(
+                                      'role.user', 'user',
+                                      'user.id = :idUser',
+                                      {idUser: idUser}
+                                    )
+                                    .getOne();
+    return (role && role.isSendMessage ? true : false);
   }
   deleteRoomField(roles: Role[]) {
     return roles.map(role => {delete role.room; return role});

@@ -4,9 +4,11 @@ import { JwtAuthWebsocketStrategy } from 'src/auth/auth-websocket.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { SocketService } from './socket.service';
 import { RoomModule } from 'src/room/room.module';
+import { RoleModule } from 'src/role/role.module';
 
 @Module({
   imports: [
+    RoleModule,
     forwardRef(() => RoomModule),
     JwtModule.registerAsync({
       useFactory: () => ({
