@@ -41,6 +41,6 @@ export class RoomService {
     return Boolean(isExist);
   }
   async checkUserExistInRoom(idRoom: number, idUser: number) {
-    return await this.roomToUserSevice.checkUniqueRoomToUserBranch(idRoom,idUser);
+    return await this.roomToUserSevice.checkUniqueRoomToUser(idRoom,idUser);
   }
 }

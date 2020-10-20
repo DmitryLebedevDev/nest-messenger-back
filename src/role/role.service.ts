@@ -5,11 +5,13 @@ import { Room } from 'src/room/room.entity';
 import { Role } from 'src/role/role.entity';
 import { createDefaultOwnerRole, createDefaultUserRole } from './helpers/role.halpers';
 import { RoleName } from './enums/role.enum';
+import { RoomToUserSevice } from 'src/room_user/roomToUser.service';
 
 @Injectable()
 export class RoleService {
   constructor(
-              @InjectRepository(Role) private roleRepository: Repository<Role>
+              @InjectRepository(Role) private roleRepository: Repository<Role>,
+              private roomToUserService: RoomToUserSevice
              ) {}
   createDefaulRoles(room: Room): Promise<Role[]> {
     const defaultOwnerRole = this.roleRepository.create(createDefaultOwnerRole());
@@ -29,19 +31,21 @@ export class RoleService {
                               .getOne();
   }
   async userCanSendMessage(idRoom: number, idUser: number) {
-    const role = await this.roleRepository.createQueryBuilder('role')
-                                    .select(['role'])
-                                    .innerJoin(
-                                      'role.room', 'room',
-                                      'room.id = :idRoom',
-                                      {idRoom: idRoom}
-                                    )
-                                    .innerJoin(
-                                      'role.user', 'user',
-                                      'user.id = :idUser',
-                                      {idUser: idUser}
-                                    )
-                                    .getOne();
+    console.log(idRoom, idUser);
+    const role = await this.roleRepository
+                           .createQueryBuilder('role')
+                           .select(['role'])
+                           .innerJoin(
+                             'role.room', 'room',
+                             'room.id = :idRoom',
+                             {idRoom: idRoom}
+                           )
+                           .innerJoin(
+                             'role.user', 'user',
+                             'user.id = :idUser',
+                             {idUser: idUser}
+                           )
+                           .getOne();
     return (role && role.isSendMessage ? true : false);
   }
   deleteRoomField(roles: Role[]) {

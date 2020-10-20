@@ -34,7 +34,7 @@ const nodeEnvMode = process.env.NODE_ENV || 'development';
     AuthModule,
     RoomModule,
     SocketModule,
-  ],
+  ]
 })
 
 export class AppModule {

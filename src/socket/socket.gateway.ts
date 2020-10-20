@@ -4,7 +4,10 @@ import {
   WebSocketServer,
   OnGatewayInit,
   OnGatewayConnection,
-  OnGatewayDisconnect
+  OnGatewayDisconnect,
+  BaseWsExceptionFilter,
+  MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { SocketWithUser } from './socket.interface';
@@ -16,7 +19,13 @@ import { IsNotEmpty, IsNumber, IsString, validate } from 'class-validator';
 import { RoleService } from 'src/role/role.service';
 import { CreateMessageDto } from 'src/message/dto/createMessage.dto';
 import { createDto } from 'src/common/createDto';
+import { checkAndCreateWsError } from 'src/common/createError';
+import { UseFilters, Param, UsePipes, ValidationPipe, Body } from '@nestjs/common';
+import { BadRequestTransformationFilter } from '../filters/badRequestTransformationFilter'
+import { BaseExceptionFilter } from '@nestjs/core';
 
+@UseFilters(new BadRequestTransformationFilter)
+@UsePipes(new ValidationPipe())
 @WebSocketGateway()
 export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -27,17 +36,14 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
               private roleService: RoleService
              ) {}
 
+  ///@UsePipes(new ValidationWsData(CreateMessageDto))
   @SubscribeMessage('message')
-  async message(socket: SocketWithUser, data) {
-    const createMessageDto = createDto(data, CreateMessageDto);
-    const errors = await validate(createMessageDto);
-
-    console.log(createMessageDto);
-    if (errors.length > 0) {
-      console.log('message', socket.user, createMessageDto, errors);
-    } else {
-      console.log('message', socket.user, createMessageDto);
-    }
+  async message(
+    @ConnectedSocket() socket: SocketWithUser,
+    @MessageBody() data: CreateMessageDto,
+  ) {
+    console.log(await this.roleService.userCanSendMessage(data.idRoom, socket.user.id));
+    console.log('message', socket.user, data);
   }
 
   afterInit() {

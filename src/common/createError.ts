@@ -2,15 +2,16 @@ import { ValidationError } from 'class-validator';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { ERROR_MESSAGES } from './ERROR_MESSAGES';
 import { WsException } from '@nestjs/websockets';
+import { SocketWithUser } from 'src/socket/socket.interface';
 
 function createErrorObject(errors:ValidationError[], isWsError?:boolean) {
   const objError = {
     status:   HttpStatus.BAD_REQUEST,
-    message:  errors.reduce((allErros, errorInfo) => {
+    message:  errors.reduce((allErrors, errorInfo) => {
                 return errorInfo.constraints ?
-                  [...allErros,...Object.values(errorInfo.constraints)]
+                  [...allErrors,...Object.values(errorInfo.constraints)]
                   :
-                  allErros;
+                  allErrors;
     }, []),
     error:   ERROR_MESSAGES.BAD_REQUEST
   }
@@ -23,9 +24,11 @@ function createErrorObject(errors:ValidationError[], isWsError?:boolean) {
   return objError;
 }
 
-export function createHttpException(erros: ValidationError[], isWsError) {
-  throw new HttpException(createErrorObject(erros), HttpStatus.BAD_REQUEST);
+export function checkAndCreateHttpError(errors: ValidationError[]) {
+  if (errors.length > 0)
+  throw new HttpException(createErrorObject(errors), HttpStatus.BAD_REQUEST);
 }
-export function createWsException(erros: ValidationError[]) {
-  throw new WsException(createErrorObject(erros, true));
+export function checkAndCreateWsError(errors: ValidationError[], socket: SocketWithUser) {
+  if (errors.length > 0)
+  throw new WsException(createErrorObject(errors, true));
 }
