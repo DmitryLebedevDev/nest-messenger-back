@@ -9,9 +9,10 @@ import { SocketModule } from 'src/socket/socket.module';
 import { UserModule } from 'src/user/user.module';
 import { RoomToUserModule } from 'src/room_user/roomToUser.module';
 import { RoleModule } from 'src/role/role.module';
+import { Message } from 'src/message/message.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Room, RoomToUser]),
+  imports: [TypeOrmModule.forFeature([Room, Message]),
             forwardRef(() => SocketModule),
             UserModule,
             RoomToUserModule,

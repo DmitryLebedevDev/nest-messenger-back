@@ -30,22 +30,9 @@ export class RoleService {
                                         )
                               .getOne();
   }
-  async userCanSendMessage(idRoom: number, idUser: number) {
-    console.log(idRoom, idUser);
-    const role = await this.roleRepository
-                           .createQueryBuilder('role')
-                           .select(['role'])
-                           .innerJoin(
-                             'role.room', 'room',
-                             'room.id = :idRoom',
-                             {idRoom: idRoom}
-                           )
-                           .innerJoin(
-                             'role.user', 'user',
-                             'user.id = :idUser',
-                             {idUser: idUser}
-                           )
-                           .getOne();
+  async isUserCanSendMessage(idRoom: number, idUser: number) {
+    const roomToUser = await this.roomToUserService.getUserToRoom(idRoom,idUser);
+    const role = roomToUser && await this.roleRepository.findOne({id: roomToUser.id});
     return (role && role.isSendMessage ? true : false);
   }
   deleteRoomField(roles: Role[]) {

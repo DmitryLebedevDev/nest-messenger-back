@@ -7,11 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { RoomToUserSevice } from 'src/room_user/roomToUser.service';
 import { Role } from 'src/role/role.entity';
+import { Message } from 'src/message/message.entity';
 
 @Injectable()
 export class RoomService {
-  constructor(@InjectRepository(Room) private roomRepository: Repository<Room>,
-                                      private roomToUserSevice: RoomToUserSevice,
+  constructor(@InjectRepository(Room)    private roomRepository: Repository<Room>,
+              @InjectRepository(Message) private messageRepository: Repository<Message>,
+                                         private roomToUserSevice: RoomToUserSevice,
              ) {}
 
   async create(createUserDto: CreateRoomDto, jwtUser: IjwtUser) {
@@ -21,6 +23,20 @@ export class RoomService {
                       createrId: jwtUser.id
                     });
     return this.roomRepository.save(room);
+  }
+  async createMessageInRoom(idRoom: number, idUser: number, text: string) {
+    const room = new Room();
+          room.id = idRoom;
+    const user = new User();
+          user.id = idUser;
+
+    const message = this.messageRepository.create({
+      room,
+      user,
+      text
+    });
+
+    return this.messageRepository.save(message);
   }
   async joinUser(room: Room, user: User, role: Role) {
     return await this.roomToUserSevice.joinUser(room,user,role);
