@@ -31,9 +31,8 @@ export class RoleService {
                               .getOne();
   }
   async isUserCanSendMessage(idRoom: number, idUser: number) {
-    const roomToUser = await this.roomToUserService.getUserToRoom(idRoom,idUser);
-    const role = roomToUser && await this.roleRepository.findOne({id: roomToUser.id});
-    return (role && role.isSendMessage ? true : false);
+    const roomToUser = await this.roomToUserService.getUserToRoom(idRoom,idUser, ['role']);
+    return (roomToUser && roomToUser.role && roomToUser.role.isSendMessage ? true : false);
   }
   deleteRoomField(roles: Role[]) {
     return roles.map(role => {delete role.room; return role});

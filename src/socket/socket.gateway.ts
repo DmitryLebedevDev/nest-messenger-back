@@ -8,6 +8,7 @@ import {
   BaseWsExceptionFilter,
   MessageBody,
   ConnectedSocket,
+  WsException,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { SocketWithUser } from './socket.interface';
@@ -53,7 +54,7 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
                               text: messageInfo.text
             })
     } else {
-      throw new HttpException('insufficient privileges', 0);
+      throw new WsException('insufficient privileges');
     }
   }
 

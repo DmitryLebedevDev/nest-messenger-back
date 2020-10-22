@@ -21,13 +21,16 @@ export class RoomToUserSevice {
                            .create({room,user,role})
     return this.roomToUserRepository.save(roomToUser);
   }
-  async getUserToRoom(idRoom: number, idUser: number) {
-    return await this._getUserToRoom(idRoom, idUser).getOne();
+  async getUserToRoom(idRoom: number, idUser: number, select?) {
+    return await this._getUserToRoom(idRoom, idUser, select).getOne();
   }
-  private _getUserToRoom(idRoom: number, idUser: number) {
+  private _getUserToRoom(idRoom: number, idUser: number, select = []) {
+    select = ['room_to_user', ...select];
     return this.roomToUserRepository
                .createQueryBuilder('room_to_user')
+               .select(select)
                .innerJoin('room_to_user.room', 'room', 'room.id = :idRoom', {idRoom})
                .innerJoin('room_to_user.user','user', 'user.id = :idUser', {idUser})
+               .innerJoin('room_to_user.role', 'role')
   }
 }
