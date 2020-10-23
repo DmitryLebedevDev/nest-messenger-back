@@ -31,15 +31,14 @@ import { RoomService } from 'src/room/room.service';
 @WebSocketGateway()
 export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  private server: Server;
 
   constructor(private jwtService: JwtService,
-              private socketService: SocketService,
               private roleService: RoleService,
               private roomService: RoomService,
+              private socketService: SocketService
              ) {}
 
-  ///@UsePipes(new ValidationWsData(CreateMessageDto))
   @SubscribeMessage('message')
   async message(
     @ConnectedSocket() socket: SocketWithUser,
