@@ -18,6 +18,11 @@ export class SocketService {
     &&
     this.idUserToIdSocket[idUser].join(String(idRoom));
   }
+  async deleteRoomForUser(idRoom: number, idUser: number) {
+    this.idUserToIdSocket[idUser]
+    &&
+    this.idUserToIdSocket[idUser].leave(String(idRoom));
+  }
   async addUser(socket: SocketWithUser) {
     const userId = socket.user.id;
     const userRoomsId = await this.roomService
@@ -28,6 +33,7 @@ export class SocketService {
   }
   async removeUser(socket: SocketWithUser) {
     socket.leaveAll();
+    console.log()
     delete this.idUserToIdSocket[socket.user.id];
   }
 }

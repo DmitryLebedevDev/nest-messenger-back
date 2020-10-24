@@ -41,6 +41,9 @@ export class RoomService {
   async joinUser(room: Room, user: User, role: Role) {
     return await this.roomToUserSevice.joinUser(room,user,role);
   }
+  async leaveUser(idRoom: number, idUser: number) {
+    return await this.roomToUserSevice
+  }
   async getUserRooms(idUser:number, isOnliId?: boolean) {
     return await this.roomRepository
                      .createQueryBuilder('room')

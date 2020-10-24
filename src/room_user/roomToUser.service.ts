@@ -21,6 +21,10 @@ export class RoomToUserSevice {
                            .create({room,user,role})
     return this.roomToUserRepository.save(roomToUser);
   }
+  async leaveUser(idRoom: number, idUser: number) {
+    const room_to_user = await this._getUserToRoom(idRoom,idUser).getOne();
+    return room_to_user && this.roomToUserRepository.delete({id: room_to_user.id});
+  }
   async getUserToRoom(idRoom: number, idUser: number, select?) {
     return await this._getUserToRoom(idRoom, idUser, select).getOne();
   }

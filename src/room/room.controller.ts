@@ -12,6 +12,7 @@ import { JoinRoomDto } from './dto/join-room.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { checkExistRoom } from './createrException/createrException';
 import { GetUserRoomsDto } from './dto/getUserRooms.dto';
+import { LeaveRoomDto } from './dto/leave-room.dto';
 
 
 @UseGuards(JwtAuthGuard)
@@ -50,7 +51,13 @@ export class RoomController {
     await this.roomService.joinUser(room,user,role);
 
     this.socketService.addRoomForUser(room.id, user.id);
-    return {};
+    return {message: 'ok'};
+  }
+  @Post('leave')
+  async leave(@Body() leaveRoomDto: LeaveRoomDto, @Request() req: IreqUser) {
+    await this.socketService.deleteRoomForUser(leaveRoomDto.id, req.user.id);
+    await this.roomService.leaveUser(leaveRoomDto.id,req.user.id);
+    return {message: 'ok'};
   }
   @Post('create')
   async createRoom(@Body() createRoomDto: CreateRoomDto, @Request() req: IreqUser) {
