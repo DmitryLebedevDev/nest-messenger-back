@@ -42,7 +42,7 @@ export class RoomService {
     return await this.roomToUserSevice.joinUser(room,user,role);
   }
   async leaveUser(idRoom: number, idUser: number) {
-    return await this.roomToUserSevice
+    return await this.roomToUserSevice.leaveUser(idRoom,idUser);
   }
   async getUserRooms(idUser:number, isOnliId?: boolean) {
     return await this.roomRepository
