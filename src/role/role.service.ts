@@ -6,6 +6,10 @@ import { Role } from 'src/role/role.entity';
 import { createDefaultOwnerRole, createDefaultUserRole } from './helpers/role.halpers';
 import { RoleName } from './enums/role.enum';
 import { RoomToUserForRoleM } from 'src/room_user/room_user.forRoleModule.service';
+import { CreateRoleDto } from './dto/createRole.dto';
+import e from 'express';
+import { MESSAGES } from '@nestjs/core/constants';
+import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 
 @Injectable()
 export class RoleService {
@@ -20,7 +24,17 @@ export class RoleService {
     defaultUserRole.room = room;
     return this.roleRepository.save([defaultOwnerRole,defaultUserRole]);
   }
-  getUserRole(idRoom) {
+  createRole(room: Room | null, idUser: number, createRoleDto: CreateRoleDto) {
+    if(room) {
+      if (room.createrId !== idUser)
+        throw new Error(ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES)
+    } else {
+      throw new Error(ERROR_MESSAGES.ROOM_NOT_FOUND)
+    }
+
+    return this.roleRepository.save({room,...createRoleDto});
+  }
+  getUserRole(idRoom: number) {
     return this.roleRepository.createQueryBuilder('role')
                               .select(['role'])
                               .innerJoin(

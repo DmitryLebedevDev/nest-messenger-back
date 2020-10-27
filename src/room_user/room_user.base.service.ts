@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { RoomToUser } from './entity/roomToUser.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Room } from 'src/room/room.entity';
-import { User } from 'src/user/user.entity';
-import { Role } from 'src/role/role.entity';
 
 @Injectable()
 export class RoomToUserSeviceBase {

@@ -4,5 +4,6 @@ export const ERROR_MESSAGES = {
   ROOM_NOT_FOUND: 'Room not found',
   ROOM_NAME_IS_NOT_UNIQUE: 'Room name is no unique',
   EMAIL_ALREADY_EXIST: 'Email already exists',
-  BAD_REQUEST: 'Bad Request'
+  BAD_REQUEST: 'Bad Request',
+  INSUFFICIENT_PRIVILEGES: 'insufficient_privileges'
 }

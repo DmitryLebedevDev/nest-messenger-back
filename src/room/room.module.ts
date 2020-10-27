@@ -13,6 +13,7 @@ import { Message } from 'src/message/message.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Room, Message]),
             forwardRef(() => SocketModule),
+            forwardRef(() => RoleModule),
             UserModule,
             RoomToUserModule,
             RoleModule
