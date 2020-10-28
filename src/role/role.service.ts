@@ -25,13 +25,14 @@ export class RoleService {
     return this.roleRepository.save([defaultOwnerRole,defaultUserRole]);
   }
   createRole(room: Room | null, idUser: number, createRoleDto: CreateRoleDto) {
+    console.log(room, idUser);
     if(room) {
       if (room.createrId !== idUser)
         throw new Error(ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES)
     } else {
       throw new Error(ERROR_MESSAGES.ROOM_NOT_FOUND)
     }
-
+    
     return this.roleRepository.save({room,...createRoleDto});
   }
   getUserRole(idRoom: number) {
