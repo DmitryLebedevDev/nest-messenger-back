@@ -18,7 +18,9 @@ export class RoleController {
   async createRole(@Body() createRoleDto: CreateRoleDto, @Req() req: IreqUser) {
     try {
       const room = await this.roomService.findById(createRoleDto.idRoom);
-      return await this.roleService.createRole(room, req.user.id, createRoleDto);
+      const role = await this.roleService.createRole(room, req.user.id, createRoleDto);
+      delete role.room;
+      return role;
     } catch (e) {
       throw new HttpException({
         status:   HttpStatus.BAD_REQUEST,

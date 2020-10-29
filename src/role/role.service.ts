@@ -10,6 +10,7 @@ import { CreateRoleDto } from './dto/createRole.dto';
 import e from 'express';
 import { MESSAGES } from '@nestjs/core/constants';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
+import { UpdateRoleDto } from './dto/updateRole.dto';
 
 @Injectable()
 export class RoleService {
@@ -25,15 +26,25 @@ export class RoleService {
     return this.roleRepository.save([defaultOwnerRole,defaultUserRole]);
   }
   createRole(room: Room | null, idUser: number, createRoleDto: CreateRoleDto) {
-    console.log(room, idUser);
     if(room) {
       if (room.createrId !== idUser)
         throw new Error(ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES)
     } else {
       throw new Error(ERROR_MESSAGES.ROOM_NOT_FOUND)
     }
-    
+
     return this.roleRepository.save({room,...createRoleDto});
+  }
+  async updateRole(room: Room | null, idUser: number,updateRoleDto: UpdateRoleDto) {
+    const role = await this.roleRepository.findOne({id: updateRoleDto.idRole});
+    if(room) {
+      if (room.createrId !== idUser)
+        throw new Error(ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES)
+    } else {
+      throw new Error(ERROR_MESSAGES.ROOM_NOT_FOUND)
+    }
+
+    return this.roleRepository.save(Object.assign(role,updateRoleDto));
   }
   getUserRole(idRoom: number) {
     return this.roleRepository.createQueryBuilder('role')
