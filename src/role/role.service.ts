@@ -43,8 +43,10 @@ export class RoleService {
     } else {
       throw new Error(ERROR_MESSAGES.ROOM_NOT_FOUND)
     }
+    const newRole = await this.roleRepository.save(Object.assign(role,updateRoleDto))
+    delete newRole.idRole;
 
-    return this.roleRepository.save(Object.assign(role,updateRoleDto));
+    return newRole;
   }
   getUserRole(idRoom: number) {
     return this.roleRepository.createQueryBuilder('role')

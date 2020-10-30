@@ -5,6 +5,10 @@ export class UpdateRoleDto {
   @IsNumber()
   idRole: number
 
+  @IsNotEmpty()
+  @IsNumber()
+  idRoom: number
+
   @IsOptional()
   @IsString()
   name: string
