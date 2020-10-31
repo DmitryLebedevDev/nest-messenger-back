@@ -6,6 +6,7 @@ import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { IreqUser } from 'src/user/interface/user.interface';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateRoleDto } from './dto/updateRole.dto';
+import { DeleteRoleDto } from './dto/deleteRole.dto';
 
 @Controller('role')
 @UseGuards(JwtAuthGuard)
@@ -36,6 +37,20 @@ export class RoleController {
       const room = await this.roomService.findById(updateRoleDto.idRoom);
       const role = await this.roleService.updateRole(room, req.user.id, updateRoleDto);
       delete role.room;
+      return role;
+    } catch (e) {
+      throw new HttpException({
+        status:   HttpStatus.BAD_REQUEST,
+        message:  e.message,
+        error: ERROR_MESSAGES.BAD_REQUEST
+      }, HttpStatus.BAD_REQUEST)
+    }
+  }
+  @Post('delete')
+  async deleteRole(@Body() deleteRole: DeleteRoleDto, @Req() req: IreqUser) {
+    try {
+      const room = await this.roomService.findById(deleteRole.idRoom);
+      const role = await this.roleService.deleteRole(room, req.user.id, deleteRole);
       return role;
     } catch (e) {
       throw new HttpException({

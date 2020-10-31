@@ -3,11 +3,11 @@ import { IsNotEmpty, IsNumber, IsString, IsBoolean, IsOptional } from "class-val
 export class UpdateRoleDto {
   @IsNotEmpty()
   @IsNumber()
-  idRole: number
+  idRoom: number
 
   @IsNotEmpty()
   @IsNumber()
-  idRoom: number
+  idRole: number
 
   @IsOptional()
   @IsString()
