@@ -9,6 +9,8 @@ import { UserModule } from 'src/user/user.module';
 import { RoomToUserModule } from 'src/room_user/roomToUser.module';
 import { RoleModule } from 'src/role/role.module';
 import { Message } from 'src/message/message.entity';
+import { RoomQueryService } from './services/room.query.service';
+import { RoomCrudService } from './services/room.crud.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Room, Message]),
@@ -19,7 +21,7 @@ import { Message } from 'src/message/message.entity';
             RoleModule
            ],
   controllers: [RoomController],
-  providers: [RoomService, JwtAuthGuard],
+  providers: [RoomService,RoomQueryService,RoomCrudService,JwtAuthGuard],
   exports: [RoomService]
 })
 export class RoomModule {}

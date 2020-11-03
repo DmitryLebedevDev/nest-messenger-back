@@ -10,7 +10,7 @@ import { CreateRoleDto } from './dto/createRole.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { UpdateRoleDto } from './dto/updateRole.dto';
 import { DeleteRoleDto } from './dto/deleteRole.dto';
-import { checkExist } from 'src/common/check';
+import { check } from 'src/common/check';
 
 @Injectable()
 export class RoleService {
@@ -26,16 +26,16 @@ export class RoleService {
     return this.roleRepository.save([defaultOwnerRole,defaultUserRole]);
   }
   createRole(room: Room | null, idUser: number, createRoleDto: CreateRoleDto) {
-    checkExist(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
-    checkExist(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
+    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
 
     return this.roleRepository.save({room,...createRoleDto});
   }
   async updateRole(room: Room | null, idUser: number,updateRoleDto: UpdateRoleDto) {
     const role = await this.roleRepository.findOne({id: updateRoleDto.idRole});
-    checkExist(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
-    checkExist(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
-    checkExist(role,ERROR_MESSAGES.ROLE_NOT_FOUND);
+    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
+    check(role,ERROR_MESSAGES.ROLE_NOT_FOUND);
 
     const newRole = await this.roleRepository.save(Object.assign(role,updateRoleDto))
     delete newRole.idRole;
@@ -44,9 +44,9 @@ export class RoleService {
   }
   async deleteRole(room: Room | null, idUser: number, deleteRole: DeleteRoleDto) {
     const role = await this.roleRepository.findOne({id: deleteRole.idRole});
-    checkExist(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
-    checkExist(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
-    checkExist(role,ERROR_MESSAGES.ROLE_NOT_FOUND);
+    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
+    check(role,ERROR_MESSAGES.ROLE_NOT_FOUND);
 
     await this.roleRepository.delete({id: role.id});
     return true;

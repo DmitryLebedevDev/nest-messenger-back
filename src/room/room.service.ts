@@ -8,18 +8,24 @@ import { User } from 'src/user/user.entity';
 import { Role } from 'src/role/role.entity';
 import { Message } from 'src/message/message.entity';
 import { RoomToUserForRoomM } from 'src/room_user/room_user.forRoomModule.service';
+import { RoomQueryService } from './services/room.query.service';
+import { check } from 'src/common/check';
+import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
+import { RoomCrudService } from './services/room.crud.service';
 
 @Injectable()
 export class RoomService {
   constructor(@InjectRepository(Room)    private roomRepository: Repository<Room>,
               @InjectRepository(Message) private messageRepository: Repository<Message>,
                                          private roomToUserSeviceRoomM: RoomToUserForRoomM,
+                                         private roomCrudService: RoomCrudService,
+                                         private roomQueryService: RoomQueryService,
              ) {}
 
-  async create(createUserDto: CreateRoomDto, jwtUser: IjwtUser) {
+  async create(createRoomDto: CreateRoomDto, jwtUser: IjwtUser) {
     const room = this.roomRepository
                      .create({
-                      ...createUserDto,
+                      ...createRoomDto,
                       createrId: jwtUser.id
                     });
     return this.roomRepository.save(room);
@@ -45,21 +51,23 @@ export class RoomService {
     return await this.roomToUserSeviceRoomM.leaveUser(idRoom,idUser);
   }
   async getUserRooms(idUser:number, isOnliId?: boolean) {
-    return await this.roomRepository
-                     .createQueryBuilder('room')
-                     .select(isOnliId ? 'room.id' : 'room')
-                     .innerJoin('room.roomToUsers', 'roomToUsers')
-                     .innerJoin('roomToUsers.user', 'user', 'user.id = :id', {id: idUser})
-                     .getMany();
+    return await this.roomQueryService.getUserRooms(idUser,isOnliId);
   }
   async findById(id) {
-    return await this.roomRepository.findOne({id});
+    return await this.roomQueryService.findById(id);
   }
   async checkUniqueName(name: string) {
-    const isExist = await this.roomRepository.count({name});
+    const isExist = await this.roomQueryService.getCount({name});
     return Boolean(isExist);
   }
   async checkUserExistInRoom(idRoom: number, idUser: number) {
     return await this.roomToUserSeviceRoomM.checkUniqueRoomToUser(idRoom,idUser);
+  }
+  async renameRoom(idRoom: number, idUser: number, name: string) {
+    const room = await this.roomQueryService.findById(idRoom);
+    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(room.createrId === idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
+
+    return this.roomCrudService.updateRoom(room, {name});
   }
 }

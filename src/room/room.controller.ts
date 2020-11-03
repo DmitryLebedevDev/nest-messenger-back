@@ -13,6 +13,7 @@ import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { checkExistRoom } from './createrException/createrException';
 import { GetUserRoomsDto } from './dto/getUserRooms.dto';
 import { LeaveRoomDto } from './dto/leave-room.dto';
+import { RenameRoomDto } from './dto/rename-room.dto';
 
 
 @UseGuards(JwtAuthGuard)
@@ -74,5 +75,8 @@ export class RoomController {
                                );
     room.roomRoles = this.roleService.deleteRoomField(defaultRoleForRoom); // fix circular dependency
     return room;
+  }
+  async renameRoom(@Body() renameRoomDto: RenameRoomDto, @Request() req: IreqUser) {
+    
   }
 }

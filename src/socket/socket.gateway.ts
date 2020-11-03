@@ -47,11 +47,11 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     if(await this.roleService.isUserCanSendMessage(messageInfo.idRoom, socket.user.id)) {
       await this.roomService
                 .createMessageInRoom(messageInfo.idRoom, socket.user.id, messageInfo.text);
-      socket.to(String(messageInfo.idRoom))
-            .emit('message', {idRoom: messageInfo.idRoom,
-                              idUser: socket.user.id,
-                              text: messageInfo.text
-            })
+      this.server.to(String(messageInfo.idRoom))
+                 .emit('message', {idRoom: messageInfo.idRoom,
+                                   idUser: socket.user.id,
+                                   text: messageInfo.text
+                 })
     } else {
       throw new WsException('insufficient privileges');
     }
@@ -74,6 +74,6 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
   handleDisconnect(@ConnectedSocket() socket: SocketWithUser) {
     if(socket.user)
-    this.socketService.removeUser(socket);
+      this.socketService.removeUser(socket);
   }
 }
