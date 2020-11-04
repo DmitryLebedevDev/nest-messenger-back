@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { IjwtUser } from 'src/user/interface/user.interface';
 import { Repository } from 'typeorm';
@@ -15,6 +15,8 @@ import { RoomCrudService } from './services/room.crud.service';
 
 @Injectable()
 export class RoomService {
+  private logger = new Logger();
+
   constructor(@InjectRepository(Room)    private roomRepository: Repository<Room>,
               @InjectRepository(Message) private messageRepository: Repository<Message>,
                                          private roomToUserSeviceRoomM: RoomToUserForRoomM,
@@ -58,15 +60,16 @@ export class RoomService {
   }
   async checkUniqueName(name: string) {
     const isExist = await this.roomQueryService.getCount({name});
-    return Boolean(isExist);
+    return !isExist;
   }
   async checkUserExistInRoom(idRoom: number, idUser: number) {
     return await this.roomToUserSeviceRoomM.checkUniqueRoomToUser(idRoom,idUser);
   }
   async renameRoom(idRoom: number, idUser: number, name: string) {
     const room = await this.roomQueryService.findById(idRoom);
-    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
-    check(room.createrId === idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
+    check(!room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(!(await this.checkUniqueName(name)), ERROR_MESSAGES.ROOM_NAME_IS_NOT_UNIQUE);
+    check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
 
     return this.roomCrudService.updateRoom(room, {name});
   }

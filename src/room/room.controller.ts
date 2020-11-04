@@ -27,7 +27,7 @@ export class RoomController {
 
   @Get('checkName')
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto) {
-    return await !this.roomService.checkUniqueName(checkUniqueNameDto.name);
+    return await this.roomService.checkUniqueName(checkUniqueNameDto.name);
   }
   @Get('getUserRoom')
   async getUserRoom(@Body() getUserRoomsDto: GetUserRoomsDto) {
@@ -76,7 +76,8 @@ export class RoomController {
     room.roomRoles = this.roleService.deleteRoomField(defaultRoleForRoom); // fix circular dependency
     return room;
   }
-  async renameRoom(@Body() renameRoomDto: RenameRoomDto, @Request() req: IreqUser) {
-    
+  @Post('rename')
+  async renameRoom(@Body() {idRoom, newName}: RenameRoomDto, @Request() req: IreqUser) {
+    return this.roomService.renameRoom(idRoom, req.user.id, newName);
   }
 }
