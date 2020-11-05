@@ -12,16 +12,16 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   async getAllUsers() {
     return this.userService
-               .getAll()
+               .getAllUser()
                .then(users =>
                   users.map(this.userService.sanitiseData.bind(this.userService))
-                );
+               );
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async getUser(@Param () param) {
-    return this.userService.findById(param.id)
+    return this.userService.getUser({id: param.id})
                .then(user => this.userService.sanitiseData(user))
                .catch(_ => {
                   throw new HttpException({

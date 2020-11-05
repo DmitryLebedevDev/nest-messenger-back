@@ -42,7 +42,7 @@ export class RoomController {
         error:   'User alrady in room'
       }, HttpStatus.BAD_REQUEST)
     }
-    const user = await this.userService.findById(req.user.id);
+    const user = await this.userService.getUser({id:req.user.id});
 
     const room = await this.roomService.findById(joinRoomDto.id);
     checkExistRoom(room);
@@ -62,7 +62,7 @@ export class RoomController {
   }
   @Post('create')
   async createRoom(@Body() createRoomDto: CreateRoomDto, @Request() req: IreqUser) {
-    const user               = await this.userService.findById(req.user.id);
+    const user               = await this.userService.getUser({id: req.user.id});
 
     const room               = await this.roomService.create(createRoomDto, req.user);
     checkExistRoom(room);

@@ -16,6 +16,7 @@ export class AuthController {
   async regUser(@Body() createUserDto: CreateUserDto) {
     try {
       const user = await this.userServise.create(createUserDto);
+      console.log(user);
       const { access_token } = await this.authServise.login(user);
       return this.userServise.sanitiseData({...user, access_token});
     } catch {
@@ -36,7 +37,7 @@ export class AuthController {
   @Get()
   @UseGuards(JwtAuthGuard)
   async getProfile(@Request() req) {
-    const user = await this.userServise.findById(req.user.id);
+    const user = await this.userServise.getUser(req.user.id);
     if (!user) {
       throw new HttpException("Unauthorized",HttpStatus.UNAUTHORIZED);
     }

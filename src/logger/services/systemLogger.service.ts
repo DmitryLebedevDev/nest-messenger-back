@@ -9,10 +9,6 @@ export class SystemLogger extends Logger {
       new transports.File({ filename: 'error.log', level: 'error' })
     ]
   })
-  constructor() {
-    super();
-  }
-
   //log(message) {
   //  this.logger.('info', message);
   //}

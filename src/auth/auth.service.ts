@@ -12,7 +12,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     try {
-      const user = await this.userService.findByEmailAndPassword(email, password);
+      const user = await this.userService.getUser({email, password});
       return this.userService.sanitiseData(user);
     } catch {
       return null;

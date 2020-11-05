@@ -11,6 +11,7 @@ import { RoomToUser } from './room_user/entity/roomToUser.entity';
 import { Role } from './role/role.entity';
 import { Message } from './message/message.entity';
 import { SocketModule } from './socket/socket.module';
+import { LoggerModule } from './logger/logger.module';
 
 const nodeEnvMode = process.env.NODE_ENV || 'development';
 
