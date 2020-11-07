@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES } from "./ERROR_MESSAGES";
-import { HttpStatus } from "@nestjs/common";
+import { HttpStatus, HttpException } from "@nestjs/common";
 
 export class CheckError {
   constructor(public error: string,
@@ -8,7 +8,15 @@ export class CheckError {
   ) {}
 }
 
-export const check = (any: any, errorMessage: string) => {
+export const check = (any: any,
+                      message: string,
+                      error = ERROR_MESSAGES.BAD_REQUEST,
+                      status = HttpStatus.BAD_REQUEST,
+) => {
   if (any)
-    throw new Error(errorMessage)
+    throw new HttpException({
+      status,
+      error,
+      message
+    }, status)
 }
