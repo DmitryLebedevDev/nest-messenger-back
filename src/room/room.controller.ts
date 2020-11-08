@@ -36,13 +36,10 @@ export class RoomController {
   }
   @Post('join')
   async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {
-    if(await this.roomService.checkUserExistInRoom(joinRoomDto.id, req.user.id)) {
-      throw new HttpException({
-        status:   HttpStatus.BAD_REQUEST,
-        message:  ERROR_MESSAGES.USER_ALRADY_IN_ROOM,
-        error:   'User alrady in room'
-      }, HttpStatus.BAD_REQUEST)
-    }
+    check(await this.roomService.checkUserExistInRoom(joinRoomDto.id, req.user.id),
+          ERROR_MESSAGES.USER_ALRADY_IN_ROOM,
+          ERROR_MESSAGES.USER_ALRADY_IN_ROOM
+    )
     const user = await this.userService.getUser({id:req.user.id});
 
     const room = await this.roomService.findById(joinRoomDto.id);
