@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, HttpException, Param, ParseIntPipe } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { IreqUser } from 'src/user/interface/user.interface'
@@ -14,6 +14,7 @@ import { checkExistRoom } from './createrException/createrException';
 import { GetUserRoomsDto } from './dto/getUserRooms.dto';
 import { LeaveRoomDto } from './dto/leave-room.dto';
 import { RenameRoomDto } from './dto/rename-room.dto';
+import { check } from '../common/check';
 
 
 @UseGuards(JwtAuthGuard)
@@ -79,5 +80,14 @@ export class RoomController {
   @Post('rename')
   async renameRoom(@Body() {idRoom, newName}: RenameRoomDto, @Request() req: IreqUser) {
     return this.roomService.renameRoom(idRoom, req.user.id, newName);
+  }
+  @Get('/:idRoom')
+  async getRoom(@Param('idRoom', ParseIntPipe) idRoom: string) {
+    const room = this.roomService.findById(idRoom);
+    check(!room, ERROR_MESSAGES.ROOM_NOT_FOUND,
+                 ERROR_MESSAGES.ROOM_NOT_FOUND,
+                 HttpStatus.BAD_REQUEST
+    );
+    return room;
   }
 }
