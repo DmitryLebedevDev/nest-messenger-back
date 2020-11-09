@@ -7,11 +7,13 @@ import { UserModule } from 'src/user/user.module';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { LoggerModule } from 'src/logger/logger.module';
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
+    LoggerModule,
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.jwtKey,

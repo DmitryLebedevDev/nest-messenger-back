@@ -5,10 +5,13 @@ import { createLogger, format, transports } from 'winston';
 export class SystemLogger extends Logger {
   private logger = createLogger({
     transports: [
-      new transports.Console(),
       new transports.File({ filename: 'error.log', level: 'error' })
     ]
   })
+  error(error, trace) {
+    super.error(error,trace);
+    this.logger.error(`${error}\n${trace}`);
+  }
   //log(message) {
   //  this.logger.('info', message);
   //}

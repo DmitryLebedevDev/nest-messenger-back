@@ -5,18 +5,21 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from 'src/user/user.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
+import { AppLogger } from 'src/logger/services/appLogger.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authServise: AuthService,
-              private userServise: UserService
+              private userServise: UserService,
+              private logger: AppLogger
              ) {}
 
   @Post('registration')
   async regUser(@Body() createUserDto: CreateUserDto) {
     try {
       const user = await this.userServise.create(createUserDto);
-      console.log(user);
+      this.logger
+          .log(`New user ${JSON.stringify(this.userServise.sanitiseData(user))}`);
       const { access_token } = await this.authServise.login(user);
       return this.userServise.sanitiseData({...user, access_token});
     } catch {
