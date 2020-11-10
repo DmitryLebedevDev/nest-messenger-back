@@ -12,7 +12,4 @@ export class SystemLogger extends Logger {
     super.error(error,trace);
     this.logger.error(`${error}\n${trace}`);
   }
-  //log(message) {
-  //  this.logger.('info', message);
-  //}
 }

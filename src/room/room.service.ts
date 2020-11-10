@@ -25,12 +25,10 @@ export class RoomService {
              ) {}
 
   async create(createRoomDto: CreateRoomDto, jwtUser: IjwtUser) {
-    const room = this.roomRepository
-                     .create({
-                      ...createRoomDto,
-                      createrId: jwtUser.id
-                    });
-    return this.roomRepository.save(room);
+    return this.roomCrudService.create({
+      ...createRoomDto,
+      createrId: jwtUser.id
+    });
   }
   async createMessageInRoom(idRoom: number, idUser: number, text: string) {
     const room = new Room();
