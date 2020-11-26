@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany } from "typeorm";
-import { RoomToUser } from "src/room_user/roomToUser.entity";
+import { RoomToUser } from "src/room_user/entity/roomToUser.entity";
 import { Role } from "src/role/role.entity";
 import { Message } from "src/message/message.entity";
 

@@ -33,7 +33,6 @@ export class SocketService {
   }
   async removeUser(socket: SocketWithUser) {
     socket.leaveAll();
-    console.log()
     delete this.idUserToIdSocket[socket.user.id];
   }
 }

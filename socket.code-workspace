@@ -7,5 +7,7 @@
       "path": "../react-messenger-front"
     }
   ],
-  "settings": {}
+  "settings": {
+    "debug.showInlineBreakpointCandidates": false
+  }
 }

@@ -7,7 +7,7 @@ import { Connection } from 'typeorm';
 import { User } from './user/user.entity';
 import { RoomModule } from './room/room.module';
 import { Room } from './room/room.entity';
-import { RoomToUser } from './room_user/roomToUser.entity';
+import { RoomToUser } from './room_user/entity/roomToUser.entity';
 import { Role } from './role/role.entity';
 import { Message } from './message/message.entity';
 import { SocketModule } from './socket/socket.module';

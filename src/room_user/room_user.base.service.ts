@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { RoomToUser } from './roomToUser.entity';
+import { RoomToUser } from './entity/roomToUser.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Room } from 'src/room/room.entity';
@@ -7,28 +7,17 @@ import { User } from 'src/user/user.entity';
 import { Role } from 'src/role/role.entity';
 
 @Injectable()
-export class RoomToUserSevice {
-  constructor(
-              @InjectRepository(RoomToUser) private roomToUserRepository: Repository<RoomToUser>
-             ) {}
+export class RoomToUserSeviceBase {
+  constructor(@InjectRepository(RoomToUser) public roomToUserRepository: Repository<RoomToUser>) {}
   async checkUniqueRoomToUser(idRoom: number, idUser: number) {
     const isExist = await this._getUserToRoom(idRoom, idUser)
                               .getCount();
     return Boolean(isExist);
   }
-  joinUser(room: Room, user: User, role: Role) {
-    const roomToUser = this.roomToUserRepository
-                           .create({room,user,role})
-    return this.roomToUserRepository.save(roomToUser);
-  }
-  async leaveUser(idRoom: number, idUser: number) {
-    const room_to_user = await this._getUserToRoom(idRoom,idUser).getOne();
-    return room_to_user && this.roomToUserRepository.delete({id: room_to_user.id});
-  }
   async getUserToRoom(idRoom: number, idUser: number, select?) {
     return await this._getUserToRoom(idRoom, idUser, select).getOne();
   }
-  private _getUserToRoom(idRoom: number, idUser: number, select = []) {
+  protected _getUserToRoom(idRoom: number, idUser: number, select = []) {
     select = ['room_to_user', ...select];
     return this.roomToUserRepository
                .createQueryBuilder('room_to_user')

@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, Table, ManyToMany, ManyToOne } from "typeorm";
-import { RoomToUser } from "src/room_user/roomToUser.entity";
+import { RoomToUser } from "src/room_user/entity/roomToUser.entity";
 
 @Entity()
 export class User {

@@ -73,7 +73,7 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   }
 
   handleDisconnect(@ConnectedSocket() socket: SocketWithUser) {
-    console.log('disconnect', socket.user.id)
+    if(socket.user)
     this.socketService.removeUser(socket);
   }
 }
