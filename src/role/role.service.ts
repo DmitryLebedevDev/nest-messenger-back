@@ -26,7 +26,7 @@ export class RoleService {
     return this.roleRepository.save([defaultOwnerRole,defaultUserRole]);
   }
   createRole(room: Room | null, idUser: number, createRoleDto: CreateRoleDto) {
-    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(!room, ERROR_MESSAGES.ROOM_NOT_FOUND);
     check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
 
     return this.roleRepository.save({room,...createRoleDto});
