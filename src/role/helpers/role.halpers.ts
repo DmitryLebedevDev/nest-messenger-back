@@ -1,7 +1,7 @@
 import { Role } from "src/role/role.entity";
 import { RoleName } from "../enums/role.enum";
 
-export function createDefaultOwnerRole() {
+export function createDefaultOwnerRole():Role {
   let owner = new Role();
       owner = {...owner,
               ...{
@@ -15,7 +15,7 @@ export function createDefaultOwnerRole() {
       };
   return owner;
 }
-export function createDefaultUserRole() {
+export function createDefaultUserRole():Role {
   let user = new Role();
       user = {...user,
               ...{

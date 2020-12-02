@@ -24,6 +24,6 @@ export class Role {
   @Column({default: true})
   isSendMessage: boolean
 
-  @ManyToOne(type => Room, room => room.roomRoles)
+  @ManyToOne(() => Room, room => room.roomRoles)
   room: Room
 }

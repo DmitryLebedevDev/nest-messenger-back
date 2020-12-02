@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -51,7 +52,7 @@ export class RoleService {
     await this.roleRepository.delete({id: role.id});
     return true;
   }
-  getUserRole(idRoom: number) {
+  getUserRole(idRoom: number):Promise<Role> {
     return this.roleRepository.createQueryBuilder('role')
                               .select(['role'])
                               .innerJoin(
@@ -61,11 +62,11 @@ export class RoleService {
                                         )
                               .getOne();
   }
-  async isUserCanSendMessage(idRoom: number, idUser: number) {
+  async isUserCanSendMessage(idRoom: number, idUser: number):Promise<boolean> {
     const roomToUser = await this.roomToUserForRoleM.getUserToRoom(idRoom,idUser, ['role']);
     return (roomToUser && roomToUser.role && roomToUser.role.isSendMessage ? true : false);
   }
-  deleteRoomField(roles: Role[]) {
+  deleteRoomField(roles: Role[]):Role[] {
     return roles.map(role => {delete role.room; return role});
   }
 }

@@ -7,6 +7,7 @@ import { IreqUser } from 'src/user/interface/user.interface';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateRoleDto } from './dto/updateRole.dto';
 import { DeleteRoleDto } from './dto/deleteRole.dto';
+import { Role } from './role.entity';
 
 @Controller('role')
 @UseGuards(JwtAuthGuard)
@@ -15,9 +16,8 @@ export class RoleController {
               private roomService: RoomService
              ) {}
 
-
   @Post('create')
-  async createRole(@Body() createRoleDto: CreateRoleDto, @Req() req: IreqUser) {
+  async createRole(@Body() createRoleDto: CreateRoleDto, @Req() req: IreqUser):Promise<Role> {
     try {
       const room = await this.roomService.findById(createRoleDto.idRoom);
       const role = await this.roleService.createRole(room, req.user.id, createRoleDto);
@@ -32,7 +32,7 @@ export class RoleController {
     }
   }
   @Post('update')
-  async updateRole(@Body() updateRoleDto: UpdateRoleDto, @Req() req: IreqUser) {
+  async updateRole(@Body() updateRoleDto: UpdateRoleDto, @Req() req: IreqUser):Promise<Role> {
     try {
       const room = await this.roomService.findById(updateRoleDto.idRoom);
       const role = await this.roleService.updateRole(room, req.user.id, updateRoleDto);
@@ -47,7 +47,7 @@ export class RoleController {
     }
   }
   @Post('delete')
-  async deleteRole(@Body() deleteRole: DeleteRoleDto, @Req() req: IreqUser) {
+  async deleteRole(@Body() deleteRole: DeleteRoleDto, @Req() req: IreqUser):Promise<boolean> {
     try {
       const room = await this.roomService.findById(deleteRole.idRoom);
       const role = await this.roleService.deleteRole(room, req.user.id, deleteRole);
