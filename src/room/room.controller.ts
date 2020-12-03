@@ -1,4 +1,5 @@
-import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, HttpException, Param, ParseIntPipe } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { IreqUser } from 'src/user/interface/user.interface'
@@ -10,11 +11,11 @@ import { RoleService } from 'src/role/role.service';
 import { RoleIndex } from '../role/enums/role.enum';
 import { JoinRoomDto } from './dto/join-room.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
-import { checkExistRoom } from './createrException/createrException';
 import { GetUserRoomsDto } from './dto/getUserRooms.dto';
 import { LeaveRoomDto } from './dto/leave-room.dto';
 import { RenameRoomDto } from './dto/rename-room.dto';
 import { check } from '../common/check';
+import { Room } from './room.entity';
 
 
 @UseGuards(JwtAuthGuard)
@@ -27,11 +28,11 @@ export class RoomController {
              ) {}
 
   @Get('checkName')
-  async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto) {
+  async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto):Promise<boolean> {
     return await this.roomService.checkUniqueName(checkUniqueNameDto.name);
   }
   @Get('getUserRoom')
-  async getUserRoom(@Body() getUserRoomsDto: GetUserRoomsDto) {
+  async getUserRoom(@Body() getUserRoomsDto: GetUserRoomsDto):Promise<Room[]> {
     return await this.roomService.getUserRooms(getUserRoomsDto.id);
   }
   @Post('join')
@@ -43,7 +44,7 @@ export class RoomController {
     const user = await this.userService.getUser({id:req.user.id});
 
     const room = await this.roomService.findById(joinRoomDto.id);
-    checkExistRoom(room);
+    check(!room, 'room not found');
 
     const role = await this.roleService.getUserRole(joinRoomDto.id);
 
@@ -63,7 +64,7 @@ export class RoomController {
     const user               = await this.userService.getUser({id: req.user.id});
 
     const room               = await this.roomService.create(createRoomDto, req.user);
-    checkExistRoom(room);
+    check(!room, 'room not found');
 
     const defaultRoleForRoom = await this.roleService.createDefaulRoles(room);
                                await this.roomService.joinUser(
@@ -79,7 +80,7 @@ export class RoomController {
     return this.roomService.renameRoom(idRoom, req.user.id, newName);
   }
   @Get('/:idRoom')
-  async getRoom(@Param('idRoom', ParseIntPipe) idRoom: string) {
+  async getRoom(@Param('idRoom', ParseIntPipe) idRoom: number):Promise<Room> {
     const room = this.roomService.findById(idRoom);
     check(!room, ERROR_MESSAGES.ROOM_NOT_FOUND,
                  ERROR_MESSAGES.ROOM_NOT_FOUND,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, Column, PrimaryGeneratedColumn,ManyToOne } from "typeorm";
 import { Room } from "src/room/room.entity";
 
@@ -24,6 +25,6 @@ export class Role {
   @Column({default: true})
   isSendMessage: boolean
 
-  @ManyToOne(() => Room, room => room.roomRoles)
+  @ManyToOne(type => Room, room => room.roomRoles)
   room: Room
 }
