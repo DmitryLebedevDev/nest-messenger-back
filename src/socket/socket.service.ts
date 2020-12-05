@@ -13,17 +13,17 @@ export class SocketService {
   constructor(private roomService: RoomService) {
   }
 
-  async addRoomForUser(idRoom:number,idUser: number) {
+  async addRoomForUser(idRoom:number,idUser: number):Promise<void> {
     this.idUserToIdSocket[idUser]
     &&
     this.idUserToIdSocket[idUser].join(String(idRoom));
   }
-  async deleteRoomForUser(idRoom: number, idUser: number) {
+  async deleteRoomForUser(idRoom: number, idUser: number):Promise<void> {
     this.idUserToIdSocket[idUser]
     &&
     this.idUserToIdSocket[idUser].leave(String(idRoom));
   }
-  async addUser(socket: SocketWithUser) {
+  async addUser(socket: SocketWithUser):Promise<void> {
     const userId = socket.user.id;
     const userRoomsId = await this.roomService
                                   .getUserRooms(userId, true)
@@ -31,7 +31,7 @@ export class SocketService {
     socket.join(userRoomsId);
     this.idUserToIdSocket[socket.user.id] = socket;
   }
-  async removeUser(socket: SocketWithUser) {
+  async removeUser(socket: SocketWithUser):Promise<void> {
     socket.leaveAll();
     delete this.idUserToIdSocket[socket.user.id];
   }

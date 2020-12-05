@@ -1,7 +1,7 @@
 import { User } from "../user.entity";
 import { Request } from 'express';
 
-export interface IsanitiseUser extends Omit<User,'password'> {}
+export type IsanitiseUser = Omit<User,'password'>
 export interface IreqUser extends Request {
   user: IjwtUser
 }

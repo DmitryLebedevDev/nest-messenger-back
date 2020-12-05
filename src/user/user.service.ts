@@ -11,13 +11,13 @@ export class UserService extends UserBaseService {
   constructor(private userCrudService: UserCrudService,
               private userQueryService: UserQueryService,
              ) {super()}
-  getUser(user: FindConditions<User>) {
+  getUser(user: FindConditions<User>):Promise<User> {
     return this.userQueryService.findOne(user);
   }
-  getAllUser() {
+  getAllUser():Promise<User[]> {
     return this.userQueryService.getAll();
   }
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto):Promise<User> {
     const user = await this.userCrudService.create(createUserDto)
     return user;
   }

@@ -11,7 +11,7 @@ export class UserQueryService extends UserBaseService {
     super()
   }
 
-  async findOne(user: FindConditions<User>) {
+  async findOne(user: FindConditions<User>):Promise<User> {
     if(user.password && user.email) {
       const findUser = await this.usersRepository
                                  .findOne({email: user.email});
@@ -22,7 +22,7 @@ export class UserQueryService extends UserBaseService {
     }
     return this.usersRepository.findOne(user);
   }
-  async getAll() {
+  async getAll():Promise<User[]> {
     return this.usersRepository.find();
   }
 }

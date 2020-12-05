@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, Column, PrimaryGeneratedColumn, Table, ManyToMany, ManyToOne } from "typeorm";
 import { RoomToUser } from "src/room_user/entity/roomToUser.entity";
 
