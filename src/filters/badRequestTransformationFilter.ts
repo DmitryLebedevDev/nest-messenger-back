@@ -3,7 +3,8 @@ import { WsException, BaseWsExceptionFilter } from '@nestjs/websockets';
 
 @Catch(BadRequestException)
 export class BadRequestTransformationFilter extends BaseWsExceptionFilter {
-  catch(exception: BadRequestException, host) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  catch(exception: BadRequestException, host:any):void {
     const errorInfo: any = exception.getResponse();
     errorInfo.error = 'Bad data';
     delete errorInfo.statusCode;

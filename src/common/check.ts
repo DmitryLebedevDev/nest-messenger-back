@@ -8,6 +8,7 @@ export class CheckError {
   ) {}
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const check = (any: any,
                       message: string,
                       error = ERROR_MESSAGES.BAD_REQUEST,

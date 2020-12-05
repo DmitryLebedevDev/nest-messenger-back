@@ -1,5 +1,5 @@
 import { Injectable, Scope, Logger } from '@nestjs/common';
-import { createLogger, format, transports } from 'winston';
+import { createLogger, transports } from 'winston';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class SystemLogger extends Logger {
@@ -8,7 +8,7 @@ export class SystemLogger extends Logger {
       new transports.File({ filename: 'error.log', level: 'error' })
     ]
   })
-  error(error, trace) {
+  error(error:string, trace:string):void {
     super.error(error,trace);
     this.logger.error(`${error}\n${trace}`);
   }
