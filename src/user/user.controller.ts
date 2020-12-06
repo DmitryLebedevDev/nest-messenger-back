@@ -1,8 +1,9 @@
-import { Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ERROR_MESSAGES } from '../common/ERROR_MESSAGES';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { IsanitiseUser } from './interface/user.interface';
+import { check } from 'src/common/check';
 
 @Controller('user')
 export class UserController {
@@ -22,13 +23,11 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   async getUser(@Param ('id', ParseIntPipe) userId: number):Promise<IsanitiseUser> {
     return this.userService.getUser({id: userId})
-               .then(user => this.userService.sanitiseData(user))
-               .catch(() => {
-                  throw new HttpException({
-                    status:   HttpStatus.NOT_FOUND,
-                    message:  ERROR_MESSAGES.USER_WIDTH_ID_NOT_FOUND,
-                    error:   'Not found'
-                  }, HttpStatus.NOT_FOUND)
-               });
+               .then(user => {
+                 check(!user, ERROR_MESSAGES.USER_WIDTH_ID_NOT_FOUND,
+                              ERROR_MESSAGES.USER_WIDTH_ID_NOT_FOUND,
+                              HttpStatus.NOT_FOUND)
+                 return this.userService.sanitiseData(user)
+               })
   }
 }

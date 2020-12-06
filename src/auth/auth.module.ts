@@ -27,5 +27,4 @@ import { LoggerModule } from 'src/logger/logger.module';
 })
 
 export class AuthModule {
-  constructor() {}
 }

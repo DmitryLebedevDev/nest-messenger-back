@@ -34,9 +34,9 @@ export class RoleService {
   }
   async updateRole(room: Room | null, idUser: number,updateRoleDto: UpdateRoleDto) {
     const role = await this.roleRepository.findOne({id: updateRoleDto.idRole});
-    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(!room, ERROR_MESSAGES.ROOM_NOT_FOUND);
     check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
-    check(role,ERROR_MESSAGES.ROLE_NOT_FOUND);
+    check(!role,ERROR_MESSAGES.ROLE_NOT_FOUND);
 
     const newRole = await this.roleRepository.save(Object.assign(role,updateRoleDto))
     delete newRole.idRole;
@@ -45,9 +45,9 @@ export class RoleService {
   }
   async deleteRole(room: Room | null, idUser: number, deleteRole: DeleteRoleDto) {
     const role = await this.roleRepository.findOne({id: deleteRole.idRole});
-    check(room, ERROR_MESSAGES.ROOM_NOT_FOUND);
+    check(!room, ERROR_MESSAGES.ROOM_NOT_FOUND);
     check(room.createrId !== idUser, ERROR_MESSAGES.INSUFFICIENT_PRIVILEGES);
-    check(role,ERROR_MESSAGES.ROLE_NOT_FOUND);
+    check(!role,ERROR_MESSAGES.ROLE_NOT_FOUND);
 
     await this.roleRepository.delete({id: role.id});
     return true;

@@ -6,6 +6,8 @@ import { UserService } from 'src/user/user.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { AppLogger } from 'src/logger/services/appLogger.service';
+import { IAccessToken } from './auth.interface';
+import { IreqUser, IsanitiseUser } from 'src/user/interface/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +16,7 @@ export class AuthController {
               private logger: AppLogger
              ) {}
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('registration')
   async regUser(@Body() createUserDto: CreateUserDto) {
     try {
@@ -33,14 +36,14 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(LocalAuthGuard)
-  async login(@Request() req) {
+  async login(@Request() req: Request & {user: IsanitiseUser}):Promise<IAccessToken> {
     return this.authServise.login(req.user);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getProfile(@Request() req) {
-    const user = await this.userServise.getUser(req.user.id);
+  async getProfile(@Request() req: IreqUser):Promise<IsanitiseUser> {
+    const user = await this.userServise.getUser({id: req.user.id});
     if (!user) {
       throw new HttpException("Unauthorized",HttpStatus.UNAUTHORIZED);
     }

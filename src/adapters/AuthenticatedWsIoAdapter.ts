@@ -10,6 +10,7 @@ export class AuthenticatedWsIoAdapter extends IoAdapter {
     this.jwtService = this.app.get(JwtService);
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   createIOServer(port: number, options?: any): any {
     options.allowRequest = async (request, allowFunction)  => {
       const token = parse(extract(request.url)).token;

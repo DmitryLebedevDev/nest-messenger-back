@@ -64,7 +64,7 @@ export class RoomController {
     const user               = await this.userService.getUser({id: req.user.id});
 
     const room               = await this.roomService.create(createRoomDto, req.user);
-    check(!room, 'room not found');
+    check(!room, ERROR_MESSAGES.ROLE_NOT_FOUND);
 
     const defaultRoleForRoom = await this.roleService.createDefaulRoles(room);
                                await this.roomService.joinUser(
