@@ -17,3 +17,10 @@ export class CreateUserDto {
 
   readonly avatarId?: string
 }
+export class QuickCreateUserDto {
+  @IsNotEmpty()
+  readonly firstName: string
+
+  @IsNotEmpty()
+  readonly lastName: string
+}

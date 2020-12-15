@@ -3,11 +3,12 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from 'src/user/user.service';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { CreateUserDto, QuickCreateUserDto } from 'src/user/dto/create-user.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { AppLogger } from 'src/logger/services/appLogger.service';
 import { IAccessToken } from './auth.interface';
 import { IreqUser, IsanitiseUser } from 'src/user/interface/user.interface';
+import { createRandomString } from 'src/common/randomString';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +16,14 @@ export class AuthController {
               private userServise: UserService,
               private logger: AppLogger
              ) {}
-
+  @Post('quick-registration')
+  async quickRegistration(
+    @Body() quickCreateUserDto: QuickCreateUserDto
+  ) {
+    const email    = `${createRandomString(20)}@quickEmail.ru`;
+    const password = createRandomString(15);
+    //const user 
+  }
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('registration')
   async regUser(@Body() createUserDto: CreateUserDto) {
