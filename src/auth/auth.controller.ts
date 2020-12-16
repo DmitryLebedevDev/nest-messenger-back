@@ -1,4 +1,4 @@
-import { Controller, Request, Post, UseGuards, Get, HttpException, HttpStatus, Body } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Get, HttpException, HttpStatus, Body, Res } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -18,11 +18,21 @@ export class AuthController {
              ) {}
   @Post('quick-registration')
   async quickRegistration(
-    @Body() quickCreateUserDto: QuickCreateUserDto
+    @Body() quickCreateUserDto: QuickCreateUserDto,
   ) {
     const email    = `${createRandomString(20)}@quickEmail.ru`;
     const password = createRandomString(15);
-    //const user 
+    const user = await this.userServise.create(
+      {...quickCreateUserDto,email,password}
+    )
+    this.logger
+        .log(
+          `Reg quick user ${JSON.stringify(this.userServise.sanitiseData(user))}`
+        );
+
+    const { access_token } = await this.authServise.login(user);
+    console.log('res');
+    return this.userServise.sanitiseData({...user, access_token})
   }
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('registration')
@@ -30,7 +40,7 @@ export class AuthController {
     try {
       const user = await this.userServise.create(createUserDto);
       this.logger
-          .log(`New user ${JSON.stringify(this.userServise.sanitiseData(user))}`);
+          .log(`Reg new user ${JSON.stringify(this.userServise.sanitiseData(user))}`);
       const { access_token } = await this.authServise.login(user);
       return this.userServise.sanitiseData({...user, access_token});
     } catch {
