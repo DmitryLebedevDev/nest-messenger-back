@@ -29,10 +29,7 @@ export class AuthController {
         .log(
           `Reg quick user ${JSON.stringify(this.userServise.sanitiseData(user))}`
         );
-
-    const { access_token } = await this.authServise.login(user);
-    console.log('res');
-    return this.userServise.sanitiseData({...user, access_token})
+    return user;
   }
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('registration')
