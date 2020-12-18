@@ -9,6 +9,7 @@ import { AppLogger } from 'src/logger/services/appLogger.service';
 import { IAccessToken } from './auth.interface';
 import { IreqUser, IsanitiseUser } from 'src/user/interface/user.interface';
 import { createRandomString } from 'src/common/randomString';
+import { check } from 'src/common/check';
 
 @Controller('auth')
 export class AuthController {
@@ -59,9 +60,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async getProfile(@Request() req: IreqUser):Promise<IsanitiseUser> {
     const user = await this.userServise.getUser({id: req.user.id});
-    if (!user) {
-      throw new HttpException("Unauthorized",HttpStatus.UNAUTHORIZED);
-    }
+    check(
+      !user, 
+      "Unauthorized",
+      "Incorrect password or email",
+      HttpStatus.UNAUTHORIZED
+    )
     return this.userServise.sanitiseData(user);
   }
 }
