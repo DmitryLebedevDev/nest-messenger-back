@@ -10,7 +10,6 @@ export class AppLogger extends Logger {
     ]
   });
 
-
   log(message: string):void {
     super.log(message,'Info');
     this.logger.info(message);
