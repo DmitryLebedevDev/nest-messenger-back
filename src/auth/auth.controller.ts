@@ -26,20 +26,23 @@ export class AuthController {
     const user = await this.userServise.create(
       {...quickCreateUserDto,email,password}
     )
+    const { access_token } = await this.authServise.login(user);
+
     this.logger
         .log(
           `Reg quick user ${JSON.stringify(this.userServise.sanitiseData(user))}`
         );
-    return user;
+
+    return {...user, access_token, password};
   }
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('registration')
   async regUser(@Body() createUserDto: CreateUserDto) {
     try {
       const user = await this.userServise.create(createUserDto);
+      const { access_token } = await this.authServise.login(user);
       this.logger
           .log(`Reg new user ${JSON.stringify(this.userServise.sanitiseData(user))}`);
-      const { access_token } = await this.authServise.login(user);
       return this.userServise.sanitiseData({...user, access_token});
     } catch {
       throw new HttpException({
