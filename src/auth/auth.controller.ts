@@ -21,7 +21,7 @@ export class AuthController {
   async quickRegistration(
     @Body() quickCreateUserDto: QuickCreateUserDto,
   ) {
-    const email    = `${createRandomString(13)}@quickEmail.ru`;
+    const email    = `${createRandomString(10)}@TestEmail.test`;
     const password = createRandomString(10);
     const user = await this.userServise.create(
       {...quickCreateUserDto,email,password}
