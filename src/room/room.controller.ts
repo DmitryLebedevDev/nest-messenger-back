@@ -31,9 +31,9 @@ export class RoomController {
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto):Promise<boolean> {
     return await this.roomService.checkUniqueName(checkUniqueNameDto.name);
   }
-  @Get('getUserRoom')
-  async getUserRoom(@Body() getUserRoomsDto: GetUserRoomsDto):Promise<Room[]> {
-    return await this.roomService.getUserRooms(getUserRoomsDto.id);
+  @Get('getUserRooms/:id')
+  async getUserRoom(@Param('id', ParseIntPipe) idUser):Promise<Room[]> {
+    return await this.roomService.getUserRooms(idUser);
   }
   @Post('join')
   async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {
@@ -63,8 +63,10 @@ export class RoomController {
   async createRoom(@Body() createRoomDto: CreateRoomDto, @Request() req: IreqUser) {
     const user               = await this.userService.getUser({id: req.user.id});
 
+    const isUniqueRoomName       = await this.roomService.checkUniqueName(createRoomDto.name);
+    check(!isUniqueRoomName, ERROR_MESSAGES.ROOM_NAME_IS_NOT_UNIQUE);
+
     const room               = await this.roomService.create(createRoomDto, req.user);
-    check(!room, ERROR_MESSAGES.ROLE_NOT_FOUND);
 
     const defaultRoleForRoom = await this.roleService.createDefaulRoles(room);
                                await this.roomService.joinUser(
