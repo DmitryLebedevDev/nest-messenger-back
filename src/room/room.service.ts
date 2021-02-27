@@ -14,6 +14,7 @@ import { check } from 'src/common/check';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { RoomCrudService } from './services/room.crud.service';
 import { RoomToUser } from 'src/room_user/entity/roomToUser.entity';
+import { IRoomWidthRole } from './room.interface';
 
 @Injectable()
 export class RoomService {
@@ -54,6 +55,9 @@ export class RoomService {
   }
   async getUserRooms(idUser:number, isOnliId?: boolean):Promise<Room[]> {
     return await this.roomQueryService.getUserRooms(idUser,isOnliId);
+  }
+  async getUserRoomsWidthRole(idUser:number):Promise<IRoomWidthRole[]> {
+    return await this.roomQueryService.getUserRoomsWidthRole(idUser);
   }
   async findById(id:number):Promise<Room> {
     return await this.roomQueryService.findById(id);

@@ -16,6 +16,7 @@ import { LeaveRoomDto } from './dto/leave-room.dto';
 import { RenameRoomDto } from './dto/rename-room.dto';
 import { check } from '../common/check';
 import { Room } from './room.entity';
+import { IRoomWidthRole } from './room.interface';
 
 
 @UseGuards(JwtAuthGuard)
@@ -34,6 +35,10 @@ export class RoomController {
   @Get('getUserRooms/:id')
   async getUserRoom(@Param('id', ParseIntPipe) idUser):Promise<Room[]> {
     return await this.roomService.getUserRooms(idUser);
+  }
+  @Get('getUserRoomWidthRole/:id')
+  async getUserRoomWidthRole(@Param('id', ParseIntPipe) idUser):Promise<IRoomWidthRole[]> {
+    return await this.roomService.getUserRoomsWidthRole(idUser);
   }
   @Post('join')
   async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {
