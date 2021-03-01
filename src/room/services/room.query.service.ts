@@ -31,7 +31,7 @@ export class RoomQueryService {
                .innerJoin('roomToUsers.role', 'role')
                .getMany()
                .then(rooms => rooms.map(room => {
-                  (room as any).role = room.roomToUsers[0]?.role
+                  (room as IRoomWidthRole).role = room.roomToUsers[0]?.role
                   delete room.roomToUsers;
 
                   return room as IRoomWidthRole;

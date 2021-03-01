@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -11,7 +10,6 @@ import { RoleService } from 'src/role/role.service';
 import { RoleIndex } from '../role/enums/role.enum';
 import { JoinRoomDto } from './dto/join-room.dto';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
-import { GetUserRoomsDto } from './dto/getUserRooms.dto';
 import { LeaveRoomDto } from './dto/leave-room.dto';
 import { RenameRoomDto } from './dto/rename-room.dto';
 import { check } from '../common/check';
