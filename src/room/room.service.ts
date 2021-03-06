@@ -77,4 +77,7 @@ export class RoomService {
 
     return this.roomCrudService.updateRoom(room, {name});
   }
+  async getSimilarRooms(nameRoom: string) {
+    return this.roomQueryService.getSimilarRooms(nameRoom);
+  }
 }

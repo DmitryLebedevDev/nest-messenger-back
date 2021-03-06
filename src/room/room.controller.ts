@@ -15,6 +15,7 @@ import { RenameRoomDto } from './dto/rename-room.dto';
 import { check } from '../common/check';
 import { Room } from './room.entity';
 import { IRoomWidthRole } from './room.interface';
+import { SearchRoomInfoDto } from './dto/searchRoomInfo';
 
 
 @UseGuards(JwtAuthGuard)
@@ -25,7 +26,10 @@ export class RoomController {
               private socketService: SocketService,
               private roleService: RoleService
              ) {}
-
+  @Get('search')
+  async search(@Query() searchInfo: SearchRoomInfoDto) {
+    return await this.roomService.getSimilarRooms(searchInfo.q);
+  }
   @Get('checkName')
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto):Promise<boolean> {
     return await this.roomService.checkUniqueName(checkUniqueNameDto.name);

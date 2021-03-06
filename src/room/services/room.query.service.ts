@@ -37,4 +37,13 @@ export class RoomQueryService {
                   return room as IRoomWidthRole;
                }));
   }
+
+  async getSimilarRooms(name: string): Promise<Room[]> {
+    return this.roomRepository
+               .createQueryBuilder('room')
+               .select('room')
+               .where('room.name like :roomName', {roomName: `%${name}%`})
+               .limit(10)
+               .getMany();
+  }
 }
