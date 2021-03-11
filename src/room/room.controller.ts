@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, Get, Query, HttpStatus, Param, ParseIntPipe, Req } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { IreqUser } from 'src/user/interface/user.interface'
@@ -33,6 +33,10 @@ export class RoomController {
   @Get('checkName')
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto):Promise<boolean> {
     return await this.roomService.checkUniqueName(checkUniqueNameDto.name);
+  }
+  @Get('getUserRooms')
+  async getUserRooms(@Req() req: IreqUser) {
+    
   }
   @Get('getUserRooms/:id')
   async getUserRoom(@Param('id', ParseIntPipe) idUser):Promise<Room[]> {

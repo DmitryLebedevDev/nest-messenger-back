@@ -14,6 +14,9 @@ export class RoomQueryService {
   async getCount(params: FindConditions<Room>) {
     return (await this.roomRepository.find(params)).length;
   }
+  async getUserRoomsRoleMessage(idUser: number) {
+
+  }
   async getUserRooms(idUser:number, isOnliId?: boolean) {
     return this.roomRepository
                .createQueryBuilder('room')
