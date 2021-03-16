@@ -14,7 +14,7 @@ import { LeaveRoomDto } from './dto/leave-room.dto';
 import { RenameRoomDto } from './dto/rename-room.dto';
 import { check } from '../common/check';
 import { Room } from './room.entity';
-import { IRoomWidthRole } from './room.interface';
+import { IRoomWRole } from './room.interface';
 import { SearchRoomInfoDto } from './dto/searchRoomInfo';
 
 
@@ -42,9 +42,15 @@ export class RoomController {
   async getUserRoom(@Param('id', ParseIntPipe) idUser):Promise<Room[]> {
     return await this.roomService.getUserRooms(idUser);
   }
-  @Get('getUserRoomWidthRole/:id')
-  async getUserRoomWidthRole(@Param('id', ParseIntPipe) idUser):Promise<IRoomWidthRole[]> {
-    return await this.roomService.getUserRoomsWidthRole(idUser);
+  @Get('getUserRoomWRole/:id')
+  async getUserRoomWRole(@Param('id', ParseIntPipe) idUser):Promise<IRoomWRole[]> {
+    return await this.roomService.getUserRoomsWRole(idUser);
+  }
+  @Get('getUserRoomWRoleMessage/:id')
+  async getUserRoomWRoleMessage(
+    @Param('id', ParseIntPipe) idUser,
+    @Query('limit', ParseIntPipe) limit = 5):Promise<IRoomWRole[]> {
+    return await this.roomService.getUserRoomsWRoleMessage(idUser, limit);
   }
   @Post('join')
   async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {

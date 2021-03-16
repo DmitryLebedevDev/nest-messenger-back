@@ -14,7 +14,8 @@ import { check } from 'src/common/check';
 import { ERROR_MESSAGES } from 'src/common/ERROR_MESSAGES';
 import { RoomCrudService } from './services/room.crud.service';
 import { RoomToUser } from 'src/room_user/entity/roomToUser.entity';
-import { IRoomWidthRole } from './room.interface';
+import { IRoomWRole } from './room.interface';
+import { MessageService } from 'src/message/message.service';
 
 @Injectable()
 export class RoomService {
@@ -22,6 +23,7 @@ export class RoomService {
 
   constructor(@InjectRepository(Room)    private roomRepository: Repository<Room>,
               @InjectRepository(Message) private messageRepository: Repository<Message>,
+                                         private messageService: MessageService,
                                          private roomToUserSeviceRoomM: RoomToUserForRoomM,
                                          private roomCrudService: RoomCrudService,
                                          private roomQueryService: RoomQueryService,
@@ -56,8 +58,20 @@ export class RoomService {
   async getUserRooms(idUser:number, isOnliId?: boolean):Promise<Room[]> {
     return await this.roomQueryService.getUserRooms(idUser,isOnliId);
   }
-  async getUserRoomsWidthRole(idUser:number):Promise<IRoomWidthRole[]> {
-    return await this.roomQueryService.getUserRoomsWidthRole(idUser);
+  async getUserRoomsWRole(idUser:number):Promise<IRoomWRole[]> {
+    return await this.roomQueryService.getUserRoomsWRole(idUser);
+  }
+  async getUserRoomsWRoleMessage(idUser: number, limitMessages: number): Promise<IRoomWRole[]> {
+    const rooms = await this.roomQueryService.getUserRoomsWRole(idUser);
+
+    return Promise.all(
+      rooms.map(async room => {
+        room.messages
+          = await this.messageService
+                      .getLastRoomMessages(room.id, limitMessages);
+
+        return room;
+    }));
   }
   async findById(id:number):Promise<Room> {
     return await this.roomQueryService.findById(id);

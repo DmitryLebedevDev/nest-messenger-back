@@ -15,6 +15,7 @@ export class MessageQueryService {
     return this.messageRepository
                .createQueryBuilder('message')
                .innerJoin('message.room', 'room', 'room.id = :id', {id: roomId})
+               .orderBy('message.id', 'DESC')
                .limit(limit)
                .getMany()
   }

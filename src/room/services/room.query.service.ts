@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository, FindConditions } from 'typeorm';
 import { Room } from '../room.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IRoomWidthRole } from '../room.interface';
+import { IRoomWRole } from '../room.interface';
 
 @Injectable()
 export class RoomQueryService {
@@ -14,10 +14,6 @@ export class RoomQueryService {
   async getCount(params: FindConditions<Room>) {
     return (await this.roomRepository.find(params)).length;
   }
-  async getUserRoomsRoleMessage(idUser: number) {
-    this.roomRepository
-        .createQueryBuilder('room')
-  }
   async getUserRooms(idUser:number, isOnliId?: boolean) {
     return this.roomRepository
                .createQueryBuilder('room')
@@ -26,7 +22,7 @@ export class RoomQueryService {
                .innerJoin('roomToUsers.user', 'user', 'user.id = :id', {id: idUser})
                .getMany();
   }
-  async getUserRoomsWidthRole(idUser: number): Promise<IRoomWidthRole[]> {
+  async getUserRoomsWRole(idUser: number): Promise<IRoomWRole[]> {
     return this.roomRepository
                .createQueryBuilder('room')
                .select(['room', 'roomToUsers', 'role'])
@@ -35,10 +31,10 @@ export class RoomQueryService {
                .innerJoin('roomToUsers.role', 'role')
                .getMany()
                .then(rooms => rooms.map(room => {
-                  (room as IRoomWidthRole).role = room.roomToUsers[0]?.role
+                  (room as IRoomWRole).role = room.roomToUsers[0]?.role
                   delete room.roomToUsers;
 
-                  return room as IRoomWidthRole;
+                  return room as IRoomWRole;
                }));
   }
 
