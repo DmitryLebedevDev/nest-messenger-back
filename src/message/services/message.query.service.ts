@@ -19,12 +19,7 @@ export class MessageQueryService {
         .from<Message>(subQuery => {
           return (
             subQuery
-              .select([
-                'message."id"',
-                'message."text"',
-                'message."date"',
-                'message."userId"'
-              ])
+              .select()
               .from('message', 'message')
               .where('message.roomId = :id', {id: roomId})
               .orderBy('message.id', 'DESC')
