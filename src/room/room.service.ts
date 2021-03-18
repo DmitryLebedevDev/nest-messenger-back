@@ -64,14 +64,7 @@ export class RoomService {
   async getUserRoomsWRoleMessage(idUser: number, limitMessages: number): Promise<IRoomWRole[]> {
     const rooms = await this.roomQueryService.getUserRoomsWRole(idUser);
 
-    return Promise.all(
-      rooms.map(async room => {
-        room.messages
-          = await this.messageService
-                      .getLastRoomMessages(room.id, limitMessages);
-
-        return room;
-    }));
+    return this.joinLastMessage(rooms, limitMessages);
   }
   async findById(id:number):Promise<Room> {
     return await this.roomQueryService.findById(id);
@@ -91,7 +84,21 @@ export class RoomService {
 
     return this.roomCrudService.updateRoom(room, {name});
   }
-  async getSimilarRooms(nameRoom: string) {
-    return this.roomQueryService.getSimilarRooms(nameRoom);
+  async getSimilarRooms(nameRoom: string): Promise<Room[]> {
+    const rooms = await this.roomQueryService.getSimilarRooms(nameRoom);
+
+    return this.joinLastMessage(rooms);
+  }
+
+  private async joinLastMessage<T extends Room>
+  (rooms: T[], limitMessages: number = 5): Promise<T[]> {
+    return Promise.all(
+      rooms.map(async room => {
+        room.messages
+          = await this.messageService
+                      .getLastRoomMessages(room.id, limitMessages);
+
+        return room;
+    }));
   }
 }
