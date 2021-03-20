@@ -11,10 +11,17 @@ export class Message {
   @Column()
   text: string
 
+  @Column({default: 0})
+  date: number
+
   @ManyToOne(type => User)
   @JoinColumn()
   user: User
+  @Column({ nullable: true })
+  userId: number;
 
   @ManyToOne(type => Room, room => room.messages)
   room: Room
+  @Column({ nullable: true })
+  roomId: number;
 }

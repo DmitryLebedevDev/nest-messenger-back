@@ -34,10 +34,6 @@ export class RoomController {
   async checkUniqueName(@Query() checkUniqueNameDto: CheckUniqueNameDto):Promise<boolean> {
     return await this.roomService.checkUniqueName(checkUniqueNameDto.name);
   }
-  @Get('getUserRooms')
-  async getUserRooms(@Req() req: IreqUser) {
-    
-  }
   @Get('getUserRooms/:id')
   async getUserRoom(@Param('id', ParseIntPipe) idUser):Promise<Room[]> {
     return await this.roomService.getUserRooms(idUser);
@@ -49,8 +45,8 @@ export class RoomController {
   @Get('getUserRoomWRoleMessage/:id')
   async getUserRoomWRoleMessage(
     @Param('id', ParseIntPipe) idUser,
-    @Query('limit', ParseIntPipe) limit = 5):Promise<IRoomWRole[]> {
-    return await this.roomService.getUserRoomsWRoleMessage(idUser, limit);
+  ):Promise<IRoomWRole[]> {
+    return await this.roomService.getUserRoomsWRoleMessage(idUser, 5);
   }
   @Post('join')
   async join(@Body() joinRoomDto: JoinRoomDto, @Request() req: IreqUser) {
