@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { SocketService } from './socket.service';
 import { RoomModule } from 'src/room/room.module';
 import { RoleModule } from 'src/role/role.module';
+import { PeerToPeerStreamsGateway } from './peer-to-peer-streams.gateway';
 
 @Module({
   imports: [
@@ -17,7 +18,12 @@ import { RoleModule } from 'src/role/role.module';
       })
     })
   ],
-  providers: [SocketGateway, JwtAuthWebsocketStrategy, SocketService],
+  providers: [
+    SocketGateway,
+    PeerToPeerStreamsGateway,
+    JwtAuthWebsocketStrategy,
+    SocketService
+  ],
   exports: [SocketService]
 })
 export class SocketModule {}
