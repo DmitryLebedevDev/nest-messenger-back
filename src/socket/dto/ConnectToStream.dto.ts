@@ -1,20 +1,20 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class RTCSessionDescriptionDto {
   @IsNotEmpty()
   @IsString()
-  sdp: string;
+  sdp: string
 
   @IsNotEmpty()
   @IsString()
-  type: RTCSdpType;
+  type: RTCSdpType
 }
 
 export class ConnectToStreamDto {
   @IsNotEmpty()
   @IsString()
-  to
+  to: string
 
   @IsNotEmpty()
   @IsString()

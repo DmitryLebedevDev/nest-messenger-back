@@ -3,13 +3,13 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-} from '@nestjs/websockets';
-import { Server } from 'socket.io';
-import { UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
+} from '@nestjs/websockets'
+import { Server } from 'socket.io'
+import { UseFilters, UsePipes, ValidationPipe } from '@nestjs/common'
 import {
   BadRequestTransformationFilter
 } from '../filters/badRequestTransformationFilter'
-import { SocketWithUser } from './socket.interface';
+import { SocketWithUser } from './socket.interface'
 
 
 @UseFilters(new BadRequestTransformationFilter)
@@ -18,10 +18,6 @@ import { SocketWithUser } from './socket.interface';
 export class PeerToPeerStreamsGateway {
   @WebSocketServer()
   private server: Server;
-
-  constructor() {
-    console.log("start")
-  }
 
   @SubscribeMessage('/connectToAudioStream')
   connectToAudioStream(

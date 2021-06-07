@@ -1,28 +1,28 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class RTCIceCandidateInitDto {
   @IsOptional()
   @IsString()
-  candidate?: string;
+  candidate?: string
 
   @IsOptional()
   @IsNumber()
-  sdpMLineIndex?: number | null;
+  sdpMLineIndex?: number | null
 
   @IsOptional()
   @IsString()
-  sdpMid?: string | null;
+  sdpMid?: string | null
 
   @IsOptional()
   @IsString()
-  usernameFragment?: string | null;
+  usernameFragment?: string | null
 }
 
 export class ConnectToStreamIcesDto {
   @IsNotEmpty()
   @IsString()
-  to
+  to: string
 
   @IsNotEmpty()
   @IsString()
