@@ -22,5 +22,5 @@ export class ConnectToStreamDto {
 
   @IsNotEmpty()
   @Type(() => RTCSessionDescriptionDto)
-  desc: RTCSessionDescription
+  desc: RTCSessionDescriptionDto
 }

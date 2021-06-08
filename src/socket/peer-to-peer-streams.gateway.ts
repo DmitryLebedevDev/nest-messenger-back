@@ -10,6 +10,7 @@ import {
   BadRequestTransformationFilter
 } from '../filters/badRequestTransformationFilter'
 import { SocketWithUser } from './socket.interface'
+import { ConnectToStreamDto } from './dto/ConnectToStream.dto';
 
 
 @UseFilters(new BadRequestTransformationFilter)
@@ -26,6 +27,15 @@ export class PeerToPeerStreamsGateway {
   ):void {
     this.server.sockets.sockets[socketId].emit(
       'connectToAudioStream', socket.id
+    )
+  }
+  @SubscribeMessage('/connectDesc')
+  connectDesc(
+    @ConnectedSocket() socket: SocketWithUser,
+    @MessageBody() connect: ConnectToStreamDto
+  ) {
+    this.server.sockets.sockets[connect.to].emit(
+      'connectDesc', connect
     )
   }
 }
