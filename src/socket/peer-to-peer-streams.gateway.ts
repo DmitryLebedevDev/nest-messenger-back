@@ -31,11 +31,18 @@ export class PeerToPeerStreamsGateway {
   }
   @SubscribeMessage('/connectDesc')
   connectDesc(
-    @ConnectedSocket() socket: SocketWithUser,
     @MessageBody() connect: ConnectToStreamDto
   ) {
     this.server.sockets.sockets[connect.to].emit(
       'connectDesc', connect
+    )
+  }
+  @SubscribeMessage('/connectAsc')
+  connectAsc(
+    @MessageBody() connect: ConnectToStreamDto
+  ) {
+    this.server.sockets.sockets[connect.to].emit(
+      '/connectAsc', connect
     )
   }
 }
