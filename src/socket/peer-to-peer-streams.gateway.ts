@@ -11,6 +11,7 @@ import {
 } from '../filters/badRequestTransformationFilter'
 import { SocketWithUser } from './socket.interface'
 import { ConnectToStreamDto } from './dto/ConnectToStream.dto';
+import { ConnectToStreamIcesDto } from './dto/ConnectToStreamIces.dto';
 
 
 @UseFilters(new BadRequestTransformationFilter)
@@ -43,6 +44,14 @@ export class PeerToPeerStreamsGateway {
   ) {
     this.server.sockets.sockets[connect.to].emit(
       '/connectAsc', connect
+    )
+  }
+  @SubscribeMessage('/connectToIces')
+  connectToIces(
+    @MessageBody() connect: ConnectToStreamIcesDto
+  ) {
+    this.server.sockets.sockets[connect.to].emit(
+      '/connectToIces', connect
     )
   }
 }
