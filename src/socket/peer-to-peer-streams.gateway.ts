@@ -10,8 +10,8 @@ import {
   BadRequestTransformationFilter
 } from '../filters/badRequestTransformationFilter'
 import { SocketWithUser } from './socket.interface'
-import { ConnectToStreamDto } from './dto/ConnectToStream.dto';
-import { ConnectToStreamIcesDto } from './dto/ConnectToStreamIces.dto';
+import { ConnectToStreamDto } from './dto/ConnectToStream.dto'
+import { ConnectToStreamIcesDto } from './dto/ConnectToStreamIces.dto'
 
 
 @UseFilters(new BadRequestTransformationFilter)
@@ -21,7 +21,7 @@ export class PeerToPeerStreamsGateway {
   @WebSocketServer()
   private server: Server;
 
-  @SubscribeMessage('/connectToAudioStream')
+  @SubscribeMessage('connectToAudioStream')
   connectToAudioStream(
     @ConnectedSocket() socket: SocketWithUser,
     @MessageBody() socketId: string
@@ -30,7 +30,7 @@ export class PeerToPeerStreamsGateway {
       'connectToAudioStream', socket.id
     )
   }
-  @SubscribeMessage('/connectDesc')
+  @SubscribeMessage('connectDesc')
   connectDesc(
     @MessageBody() connect: ConnectToStreamDto
   ) {
@@ -38,20 +38,20 @@ export class PeerToPeerStreamsGateway {
       'connectDesc', connect
     )
   }
-  @SubscribeMessage('/connectAsc')
+  @SubscribeMessage('connectAsc')
   connectAsc(
     @MessageBody() connect: ConnectToStreamDto
   ) {
     this.server.sockets.sockets[connect.to].emit(
-      '/connectAsc', connect
+      'connectAsc', connect
     )
   }
-  @SubscribeMessage('/connectToIces')
+  @SubscribeMessage('connectToIces')
   connectToIces(
     @MessageBody() connect: ConnectToStreamIcesDto
   ) {
     this.server.sockets.sockets[connect.to].emit(
-      '/connectToIces', connect
+      'connectToIces', connect
     )
   }
 }
